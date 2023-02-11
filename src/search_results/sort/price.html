@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore your destinations</title>
+    <link rel="stylesheet" href="../../tailwind.css" />
+  </head>
+  <body>
+    <nav
+      class="flex relative flex-wrap justify-between items-center py-2 font-sans leading-6 lg:flex-nowrap lg:justify-start bg-neutral-800 text-neutral-800"
+    >
+      <div
+        class="flex justify-between items-center px-3 mx-auto w-full leading-6"
+      >
+        <a
+          class="py-1 mr-4 text-xl leading-7 text-white whitespace-nowrap cursor-pointer hover:text-white focus:text-white"
+          href="../index.html"
+          style="text-decoration: none"
+          >Restify</a
+        >
+
+        <div
+          class="hidden flex-grow items-center lg:flex lg:basis-auto basis-full"
+          id="navbarSupportedContent"
+        >
+          <ul
+            class="flex flex-col pl-0 mt-0 mr-auto mb-2 lg:mb-0 lg:flex-row"
+            style="list-style: none"
+          >
+            <li class="text-left" style="list-style: outside none none">
+              <a
+                class="block py-2 px-0 text-white cursor-pointer lg:px-2 hover:text-white focus:text-white"
+                aria-current="page"
+                href="../index.html"
+                style="
+                  text-decoration: none;
+                  transition: none 0s ease 0s;
+                  list-style: outside none none;
+                "
+                >Home</a
+              >
+            </li>
+            <li class="text-left" style="list-style: outside none none">
+              <a
+                class="block py-2 px-0 text-white cursor-pointer lg:px-2 hover:text-white focus:text-white"
+                aria-current="page"
+                href="../notification.html"
+                style="
+                  text-decoration: none;
+                  transition: none 0s ease 0s;
+                  list-style: outside none none;
+                "
+                >Notifications</a
+              >
+            </li>
+            <li class="text-left" style="list-style: outside none none">
+              <a
+                class="block py-2 px-0 text-white cursor-pointer lg:px-2 hover:text-white focus:text-white"
+                aria-current="page"
+                href="search.html"
+                style="
+                  text-decoration: none;
+                  transition: none 0s ease 0s;
+                  list-style: outside none none;
+                "
+                >Search</a
+              >
+            </li>
+          </ul>
+          <ul
+            class="flex flex-col pl-0 my-0 ml-auto lg:flex-row"
+            style="list-style: none"
+          >
+            <li
+              class="relative text-left"
+              style="list-style: outside none none"
+            >
+              <ul
+                class="hidden static py-2 px-0 m-0 text-base bg-clip-padding bg-white rounded border border-solid lg:absolute border-zinc-300"
+                style="z-index: 1000; min-width: 10rem; list-style: none"
+              >
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="login_reg.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Log in</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <hr
+                    class="overflow-hidden my-2 mx-0 w-full h-px border-b-0 border-t border-solid opacity-25 border-x-0 border-zinc-300"
+                    style="
+                      background-color: currentcolor;
+                      border-width: 0px;
+                      list-style: outside none none;
+                    "
+                  />
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="myreservation.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Trips</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="review.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Reviews</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <hr
+                    class="overflow-hidden my-2 mx-0 w-full h-px border-b-0 border-t border-solid opacity-25 border-x-0 border-zinc-300"
+                    style="
+                      background-color: currentcolor;
+                      border-width: 0px;
+                      list-style: outside none none;
+                    "
+                  />
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="propertylist.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Properties</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <hr
+                    class="overflow-hidden my-2 mx-0 w-full h-px border-b-0 border-t border-solid opacity-25 border-x-0 border-zinc-300"
+                    style="
+                      background-color: currentcolor;
+                      border-width: 0px;
+                      list-style: outside none none;
+                    "
+                  />
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="proflie.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Account</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="#"
+                    onclick="log_out()"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Log out</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Sort By -->
+    <!-- price, rating -->
+    <div class="m-5">
+      <button
+        class="relative flex justify-center items-center bg-white border focus:outline-none shadow text-gray-600 rounded focus:ring ring-gray-200 group"
+      >
+        <p class="px4 mx-2">Sort</p>
+        <span class="border-l p-2 hover:bg-gray-100">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            F
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+            />
+          </svg>
+        </span>
+        <div
+          class="absolute group-focus:block top-full min-w-full w-max bg-white shadow-md mt-1 rounded"
+        >
+          <ul class="border rounded text-center">
+            <li class="px-4 py-1 hover:bg-gray-100 border-b">
+              <a href="price.html">Price</a>
+            </li>
+            <li class="px-4 py-1 hover:bg-gray-100 border-b">
+              <a href="rating.html">Rating</a>
+            </li>
+            <li class="px-4 py-1 hover:bg-gray-100 border-b">
+              <a href="../filter/default.html">Reset</a>
+            </li>
+          </ul>
+        </div>
+      </button>
+    </div>
+
+    <div class="flex justify-center h-screen desktop:my-2 mobile:mb-[200px]">
+      <div class="flex flex-col max-w-fit">
+        <!-- Property3 -->
+        <div
+          class="mobile:w-[200px] mobile:h-fit desktop:w-[600px] p-2 bg-white rounded-xl shadow-lg hover:shadow-xl flex mobile:flex-col desktop:flex-row"
+        >
+          <img
+            class="object-cover rounded-xl"
+            src="../../house.jpeg"
+            width="250"
+          />
+          <div class="mx-5">
+            <div class="font-bold my-2">
+              <div class="flex flex-row">
+                <h2 class="text-lg">Montreal Suite</h2>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="0"
+                  stroke="currentColor"
+                  class="w-6 h-6 mx-2 fill-yellow-500"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                  />
+                </svg>
+                <p class="font-normal">1</p>
+              </div>
+              <h2 class="text-green-600">$ 500 CAD</h2>
+              <h3 class="text-base text-gray-600">Amenities:</h3>
+              <ul
+                class="flex mobile:flex-col desktop:flex-row text-sm text-gray-300"
+              >
+                <li class="mr-1">Pool</li>
+                <li class="mr-1">Parking</li>
+              </ul>
+            </div>
+            <div class="mt-4">
+              <a
+                role="button"
+                href="../details.html"
+                class="text-white bg-blue-400 px-3 py-1 rounded-md hover:bg-blue-500 shadow-lg"
+                >Learn More</a
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Property2 -->
+        <div
+          class="mobile:w-[200px] mobile:h-fit desktop:w-[600px] p-2 bg-white rounded-xl shadow-lg hover:shadow-xl flex mobile:flex-col desktop:flex-row"
+        >
+          <img
+            class="object-cover rounded-xl"
+            src="../../resources/property1.jpg"
+            width="250"
+          />
+          <div class="mx-5">
+            <div class="font-bold my-2">
+              <div class="flex flex-row">
+                <h2 class="text-lg">Los Angeles Mansion</h2>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="0"
+                  stroke="currentColor"
+                  class="w-6 h-6 mx-2 fill-yellow-500"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                  />
+                </svg>
+                <p class="font-normal">5</p>
+              </div>
+              <h2 class="text-green-600">$ 1000 CAD</h2>
+              <h3 class="text-base text-gray-600">Amenities:</h3>
+              <ul
+                class="flex mobile:flex-col desktop:flex-row text-sm text-gray-300"
+              >
+                <li class="mr-1">Pool</li>
+              </ul>
+            </div>
+            <div class="mt-4">
+              <a
+                role="button"
+                href="../details.html"
+                class="text-white bg-blue-400 px-3 py-1 rounded-md hover:bg-blue-500 shadow-lg"
+                >Learn More</a
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Property1 -->
+        <div
+          class="mobile:w-[200px] mobile:h-fit desktop:w-[600px] p-2 bg-white rounded-xl shadow-lg hover:shadow-xl flex mobile:flex-col desktop:flex-row"
+        >
+          <img
+            class="object-cover rounded-xl"
+            src="../../image1.png"
+            width="250"
+          />
+          <div class="mx-5">
+            <div class="font-bold my-2">
+              <div class="flex flex-row">
+                <h2 class="text-lg">Cozy Wooden Cabin</h2>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="0"
+                  stroke="currentColor"
+                  class="w-6 h-6 mx-2 fill-yellow-500"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                  />
+                </svg>
+                <p class="font-normal">3</p>
+              </div>
+              <h2 class="text-green-600">$ 3000 CAD</h2>
+              <h3 class="text-base text-gray-600">Amenities:</h3>
+              <ul
+                class="flex mobile:flex-col desktop:flex-row text-sm text-gray-300"
+              >
+                <li class="mr-1">Pool</li>
+                <li class="mr-1">Hot Tub</li>
+                <li class="mr-1">Gym</li>
+                <li class="mr-1">Parking</li>
+                <li class="mr-1">Ocean View</li>
+                <li class="mr-1">Taxi</li>
+              </ul>
+            </div>
+            <div class="mt-4">
+              <a
+                role="button"
+                href="../details.html"
+                class="text-white bg-blue-400 px-3 py-1 rounded-md hover:bg-blue-500 shadow-lg"
+                >Learn More</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-gray-200 text-center">
+      <div class="text-white p-4" style="background-color: #212529">
+        Restify &copy 2021
+      </div>
+    </footer>
+  </body>
+</html>

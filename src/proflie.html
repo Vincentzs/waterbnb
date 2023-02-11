@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSC309 P1 - Profile</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="common.css" />
+    <script src="ui.js"></script>
+  </head>
+
+  <body>
+    <!-- reference : boostramp navgation code -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href=" ">Restify</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="notification.html"
+                >Notifications</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="search.html"
+                >Search</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-item nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img src="tommy.jpeg" />
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="login_reg.html">Log in</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="myreservation.html">Trips</a>
+                </li>
+                <li><a class="dropdown-item" href="review.html">Reviews</a></li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="propertylist.html"
+                    >Properties</a
+                  >
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="proflie.html">Account</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" onclick="log_out()"
+                    >Log out</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- side bar -->
+    <section class="container buildbox">
+      <div class="sideBar">
+        <div>
+          <img src="tommy.jpeg" />
+          <h3>Yoko Ru</h3>
+          <a href="#">update photo</a>
+        </div>
+      </div>
+
+      <div class="detailDisplay">
+        <div class="withPhoto">
+          <div>
+            <h4 style="font-weight: bold">Hi, I am Yoko</h4>
+            <h6 style="color: grey">Joined in 2019</h6>
+          </div>
+          <div>
+            <img src="tommy.jpeg" />
+          </div>
+        </div>
+
+        <a
+          href="#"
+          class="btn-link"
+          id="change"
+          onclick="show_edit_profile(this)"
+          >Edit profile</a
+        >
+        <div id="basic-infor">
+          <div class="row">
+            <p class="tittag">Email</p>
+            <p class="response">uu.ru@mail.utoronto.ca</p>
+          </div>
+          <hr />
+
+          <div class="row">
+            <p class="tittag">Phone</p>
+            <p class="response">xxx-xxx-xxxx</p>
+          </div>
+          <hr />
+        </div>
+
+        <div class="row g-2 arrange" id="edit-form" hidden>
+          <div class="col-md">
+            <div class="form-floating w-100">
+              <input
+                type="text"
+                class="form-control"
+                id="first-name"
+                placeholder="fname"
+              />
+              <label for="floatingInputGrid">First name</label>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="form-floating w-100">
+              <input
+                type="text"
+                class="form-control"
+                id="last-name"
+                placeholder="lname"
+              />
+              <label for="floatingInputGrid">Last name</label>
+            </div>
+          </div>
+          <div class="form-floating">
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="name@example.com"
+            />
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input
+              type="tel"
+              class="form-control"
+              id="phone-number"
+              placeholder="xxx-xxx-xxxx"
+            />
+            <label for="floatingInput">Phone number</label>
+          </div>
+          <div class="form-floating">
+            <textarea
+              class="form-control"
+              placeholder="comment"
+              id="about-me"
+              style="height: 110px"
+            ></textarea>
+            <label for="floatingTextarea">About me</label>
+          </div>
+          <div class="d-flex flex-row justify-content-between">
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-group-justified"
+              onclick="hide_edit()"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="btn btn-outline-primary btn-group-justified"
+              onclick="hide_edit()"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="font-weight: bold">2 Reviews</h4>
+          <div class="mesItem">
+            <div class="reviewDate">2022 12 31</div>
+            <div class="reviewContent">The guest is pretty nice!</div>
+            <div class="hostInfor">
+              <div>
+                <img src="poppy.jpeg" />
+              </div>
+              <div class="hosttag">
+                xxx, Ottawa, Canada
+                <div class="reviewDate">Joined in 2016</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mesItem">
+            <div class="reviewDate">2023 01 04</div>
+            <div class="reviewContent">Nice people.</div>
+            <div class="hostInfor">
+              <div>
+                <img src="userPhoto.png" />
+              </div>
+              <div class="hosttag">
+                xxx, Xiamen, China
+                <div class="reviewDate">Joined in 2019</div>
+              </div>
+            </div>
+          </div>
+          <a href="review.html">
+            <button class="reviewButton">View Reviews</button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container-fluid bg-body-tertiary fixed-bottom bg-dark">
+        <div class="row">
+          <div class="col-12">
+            <p class="text-center text-white">Restify &copy; 2021</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

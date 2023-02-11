@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSC309 P1 - Review</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  
+  <link rel="stylesheet" href="common.css">
+  <script src="ui.js"></script>
+</head>
+
+<body>
+    <!-- reference : boostramp navgation code -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href=" ">Restify</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="notification.html"
+                  >Notifications</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="search.html"
+                  >Search</a
+                >
+              </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-item nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img src="tommy.jpeg" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a class="dropdown-item" href="login_reg.html">Log in</a>
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="myreservation.html">Trips</a>
+                  </li>
+                  <li><a class="dropdown-item" href="review.html">Reviews</a></li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="propertylist.html"
+                      >Properties</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="proflie.html">Account</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#" onclick="log_out()"
+                      >Log out</a
+                    >
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <main class="arrange">
+        <h1>Reviews</h1>
+        <!-- get from boostramp -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+            <a id="by" class="nav-link active" onclick="show_u_review()" aria-current="page" href="#">Reviews to you</a>
+            </li>
+            <li class="nav-item">
+            <a id="about" class="nav-link" onclick="show_u1_review()" href="#">Reviews by you</a>
+            </li>
+        </ul>
+
+        <div id="rbu">
+            <div class="comment">
+                <h4 class="boldText">Past reviews</h3>
+                <h6>Reviews are written at the end of a reservation through Restify. Reviews you’ve received will be visible both here and on your public profile.</h6>
+            </div>  
+
+            <div class="review">
+                <hr>          
+                <div class="reviewItem">
+                    <div>
+                        <img src="poppy.jpeg">
+                    </div>
+
+                    <div class="reviewinfor">
+                        <div class="hosttag">
+                            xxx, Ottawa, Canada
+                        <span>Oct 2019</span>   
+                        </div>
+                        <div class="reviewContent">
+                            The guest is pretty nice!
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="reviewItem">
+                    <div>
+                        <img src="userPhoto.png">
+                    </div>
+
+                    <div class="reviewinfor">
+                        <div class="hosttag">
+                            xxx, Xiamen, China
+                        <span>Jan 2021</span>   
+                        </div>
+                        <div class="reviewContent">
+                            Nice people.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="rau" hidden>
+            <!-- <div class="comment">
+                <h4 class="boldText">Reviews to write</h3>
+                <h6>Nobody to review right now. Looks like it’s time for another trip!</h6>
+            </div>   -->
+            <!-- <div class="review">
+                <hr> 
+                <h5 class="boldText">Reviews to write</h5>     
+                <div class="reviewItem">
+                    <div>
+                        <img src="cat.jpeg">
+                    </div>
+
+                    <div class="reviewinfor">
+                        <div class="hosttag">
+                            Review your stay
+                        </div>
+                        <div class="reviewContent" style="color: grey;">Totonto Jan 17,2023 - Jan 24,2023</div>
+                    </div>
+                </div>
+            </div> -->
+            
+            <div class="review">
+                <hr> 
+                <h5 class="boldText">Past reviews you’ve written</h5>         
+                <div class="reviewItem">
+                    <div>
+                        <img src="welcome2.jpeg">
+                    </div>
+
+                    <div class="reviewinfor">
+                        <div class="hosttag">
+                            xxx, Tokyo, Japan
+                        <span>July 2012</span>   
+                        </div>
+                        <div class="reviewContent">
+                            This is for test.
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="reviewItem">
+                    <div>
+                        <img src="profile.jpeg">
+                    </div>
+
+                    <div class="reviewinfor">
+                        <div class="hosttag">
+                            xxx, Seoul, Korea
+                        <span>May 2023</span>   
+                        </div>
+                        <div class="reviewContent">
+                            Test Comment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="review">
+                <hr> 
+                <h5 class="boldText">Expired Reviews</h5>
+                <h6>Sorry, the deadline to submit a public review for this host has passed. If there's something you need to share with us about your experience, please submit a private feedback.</h6>         
+                <div class="reviewItem">
+                    <div>
+                        <img src="bear.jpeg">
+                    </div>
+
+                    <div class="reviewinfor">
+                        <div class="hosttag">
+                            Ellie Lin 
+                        </div>
+                        <div class="reviewContent">
+                            Your time to write a review for Ellie Lin has expired.
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container-fluid bg-body-tertiary fixed-bottom bg-dark ">
+          <div class="row ">
+            <div class="col-12 ">
+              <p class="text-center text-white ">Restify &copy; 2021</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+</body>
+
+</html>

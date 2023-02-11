@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSC309 P1 -submit review page</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="common.css" />
+    <script src="ui.js"></script>
+  </head>
+
+  <body>
+    <!-- reference : boostramp navgation code -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href=" ">Restify</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="notification.html"
+                >Notifications</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="search.html"
+                >Search</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-item nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img src="tommy.jpeg" />
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="login_reg.html">Log in</a>
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="myreservation.html">Trips</a>
+                </li>
+                <li><a class="dropdown-item" href="review.html">Reviews</a></li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="propertylist.html"
+                    >Properties</a
+                  >
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="proflie.html">Account</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#" onclick="log_out()"
+                    >Log out</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="question">
+        <div class="review">
+          <div>
+            <img src="tommy.jpeg" />
+          </div>
+          <h3 class="boldText">
+            Did yoko reasonably take care of the rental property?
+          </h3>
+          <div class="reviewContent" style="color: grey">
+            Let us know how is your overall experience was with yoko.
+          </div>
+        </div>
+        <div>
+          <span class="rate star" rating="1" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="2" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="3" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="4" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="5" onclick="add(this)">&starf;</span>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="review">
+          <h3 class="boldText">
+            Was the unit clean and in good order when yoko left?
+          </h3>
+          <div class="reviewContent" style="color: grey">
+            How well did yoko clean the home before you arrived?
+          </div>
+        </div>
+        <div>
+          <span class="rate star" rating="1" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="2" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="3" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="4" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="5" onclick="add(this)">&starf;</span>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="review">
+          <h3 class="boldText">
+            Was yoko disruptive to other tenants or neighbors?
+          </h3>
+          <div class="reviewContent" style="color: grey">
+            Did yoko meet your expectations to be a nice guest?
+          </div>
+        </div>
+        <div>
+          <span class="rate star" rating="1" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="2" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="3" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="4" onclick="add(this)">&starf;</span>
+          <span class="rate star" rating="5" onclick="add(this)">&starf;</span>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="review">
+          <h3 class="boldText">Finally, is there anything you want to say?</h3>
+          <div class="reviewContent" style="color: grey">
+            Any comments is great?
+          </div>
+        </div>
+        <div>
+          <textarea
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+          ></textarea>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-secondary mt-2"
+        onclick="submit_suc()"
+        style="margin-left: 10%"
+      >
+        Submit
+      </button>
+    </div>
+
+    <footer>
+      <div class="container-fluid bg-body-tertiary fixed-bottom bg-dark">
+        <div class="row">
+          <div class="col-12">
+            <p class="text-center text-white">Restify &copy; 2021</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

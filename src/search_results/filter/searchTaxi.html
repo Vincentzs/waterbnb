@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Explore your destinations</title>
+    <link rel="stylesheet" href="../../tailwind.css" />
+  </head>
+  <body>
+    <nav
+      class="flex relative flex-wrap justify-between items-center py-2 font-sans leading-6 lg:flex-nowrap lg:justify-start bg-neutral-800 text-neutral-800"
+    >
+      <div
+        class="flex justify-between items-center px-3 mx-auto w-full leading-6"
+      >
+        <a
+          class="py-1 mr-4 text-xl leading-7 text-white whitespace-nowrap cursor-pointer hover:text-white focus:text-white"
+          href="../../index.html"
+          style="text-decoration: none"
+          >Restify</a
+        >
+
+        <div
+          class="hidden flex-grow items-center lg:flex lg:basis-auto basis-full"
+          id="navbarSupportedContent"
+        >
+          <ul
+            class="flex flex-col pl-0 mt-0 mr-auto mb-2 lg:mb-0 lg:flex-row"
+            style="list-style: none"
+          >
+            <li class="text-left" style="list-style: outside none none">
+              <a
+                class="block py-2 px-0 text-white cursor-pointer lg:px-2 hover:text-white focus:text-white"
+                aria-current="page"
+                href="../../index.html"
+                style="
+                  text-decoration: none;
+                  transition: none 0s ease 0s;
+                  list-style: outside none none;
+                "
+                >Home</a
+              >
+            </li>
+            <li class="text-left" style="list-style: outside none none">
+              <a
+                class="block py-2 px-0 text-white cursor-pointer lg:px-2 hover:text-white focus:text-white"
+                aria-current="page"
+                href="../notification.html"
+                style="
+                  text-decoration: none;
+                  transition: none 0s ease 0s;
+                  list-style: outside none none;
+                "
+                >Notifications</a
+              >
+            </li>
+            <li class="text-left" style="list-style: outside none none">
+              <a
+                class="block py-2 px-0 text-white cursor-pointer lg:px-2 hover:text-white focus:text-white"
+                aria-current="page"
+                href="demo1.html"
+                style="
+                  text-decoration: none;
+                  transition: none 0s ease 0s;
+                  list-style: outside none none;
+                "
+                >Search</a
+              >
+            </li>
+          </ul>
+          <ul
+            class="flex flex-col pl-0 my-0 ml-auto lg:flex-row"
+            style="list-style: none"
+          >
+            <li
+              class="relative text-left"
+              style="list-style: outside none none"
+            >
+              <ul
+                class="hidden static py-2 px-0 m-0 text-base bg-clip-padding bg-white rounded border border-solid lg:absolute border-zinc-300"
+                style="z-index: 1000; min-width: 10rem; list-style: none"
+              >
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="login_reg.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Log in</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <hr
+                    class="overflow-hidden my-2 mx-0 w-full h-px border-b-0 border-t border-solid opacity-25 border-x-0 border-zinc-300"
+                    style="
+                      background-color: currentcolor;
+                      border-width: 0px;
+                      list-style: outside none none;
+                    "
+                  />
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="myreservation.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Trips</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="review.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Reviews</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <hr
+                    class="overflow-hidden my-2 mx-0 w-full h-px border-b-0 border-t border-solid opacity-25 border-x-0 border-zinc-300"
+                    style="
+                      background-color: currentcolor;
+                      border-width: 0px;
+                      list-style: outside none none;
+                    "
+                  />
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="propertylist.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Properties</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <hr
+                    class="overflow-hidden my-2 mx-0 w-full h-px border-b-0 border-t border-solid opacity-25 border-x-0 border-zinc-300"
+                    style="
+                      background-color: currentcolor;
+                      border-width: 0px;
+                      list-style: outside none none;
+                    "
+                  />
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="proflie.html"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Account</a
+                  >
+                </li>
+                <li
+                  class="text-neutral-800"
+                  style="list-style: outside none none"
+                >
+                  <a
+                    class="block clear-both py-1 px-4 w-full font-normal whitespace-nowrap bg-transparent border-0 cursor-pointer hover:bg-gray-200 hover:text-neutral-800 focus:bg-gray-200 focus:text-neutral-800"
+                    href="#"
+                    onclick="log_out()"
+                    style="text-decoration: none; list-style: outside none none"
+                    >Log out</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Search Bar & Filter By -->
+    <!-- location, number of guests, amenities provided, and availability on certain dates -->
+    <div class="flex justify-center flex-row h-screen">
+      <form action="#" method="#" class="my-5 rounded-xl shadow-xl">
+        <!-- Order By -->
+        <input
+          type="search"
+          name="search"
+          id="search"
+          class="peer bg-transparent border rounded-full outline-none shadow-md w-[300px] h-12 px-12 cursor-pointer focus:w-[500px] focus:cursor-text focus:border-oceanBlue"
+          placeholder="Explore your destinations..."
+          autocomplete="off"
+        />
+        <!-- Search Icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="border-transparent stroke-oceanBlue inset-y-0 my-[75px] absolute w-12 h-12 px-2.5 peer-focus:border-oceanBlue peer-focus:stroke-oceanBlue"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          />
+        </svg>
+        <!-- Filter By -->
+        <div class="flex flex-col text-center font-medium">
+          <!-- Date -->
+          <div class="date rounded-full p-2 w-full h-12 cursor-pointer">
+            <div>
+              Check In:
+              <input
+                type="date"
+                id="checkInDate"
+                class="bg-transparent font-normal"
+              />
+            </div>
+            <div>
+              Check Out:
+              <input
+                type="date"
+                id="checkOutDate"
+                class="bg-transparent font-normal"
+              />
+            </div>
+          </div>
+          <!-- Guests -->
+          <div class="rounded-full p-2 mb-20 w-full h-12">
+            Guests
+            <div class="font-normal flex flex-col w-30">
+              <label>Adult:</label>
+              <input
+                type="number"
+                class="bg-gray-200"
+                id="adults"
+                placeholder="Enter number"
+              />
+              <label>Children:</label>
+              <input
+                type="number"
+                class="bg-gray-200"
+                id="children"
+                placeholder="Enter number"
+              />
+            </div>
+          </div>
+          <!-- Amenities -->
+          <div class="rounded-full p-2 w-full h-12">
+            Amenities
+            <div class="w-full flex flex-col font-normal">
+              <div class="flex justify-center mb-4 mx-2">
+                <input
+                  id="default-checkbox"
+                  type="checkbox"
+                  value=""
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  for="default-checkbox"
+                  class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Pool</label
+                >
+              </div>
+              <div class="flex justify-center mb-4 mx-2">
+                <input
+                  id="default-checkbox"
+                  type="checkbox"
+                  value=""
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  for="default-checkbox"
+                  class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >Hot Tub</label
+                >
+              </div>
+            </div>
+            <div class="flex justify-center mb-4 mx-2">
+              <input
+                id="default-checkbox"
+                type="checkbox"
+                value=""
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="default-checkbox"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Gym</label
+              >
+            </div>
+            <div class="flex justify-center mb-4 mx-2">
+              <input
+                id="default-checkbox"
+                type="checkbox"
+                value=""
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="default-checkbox"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Parking</label
+              >
+            </div>
+            <div class="flex justify-center mb-4 mx-2">
+              <input
+                id="default-checkbox"
+                type="checkbox"
+                value=""
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="default-checkbox"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Ocean View</label
+              >
+            </div>
+            <div class="flex justify-center mb-4 mx-2">
+              <input
+                id="default-checkbox"
+                type="checkbox"
+                value=""
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label
+                for="default-checkbox"
+                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Taxi</label
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Home & Search Button -->
+        <div class="m-5 flex justify-center">
+          <button
+            class="w-20 h-10 mx-2 bg-oceanBlue border mt-[200px] shadow-xl text-white rounded-lg"
+          >
+            <a
+              href="../../index.html"
+              class="px4 mx-2 decoration-transparent text-white"
+              >Home</a
+            >
+          </button>
+          <button
+            class="w-20 h-10 mx-2 bg-oceanBlue border mt-[200px] shadow-xl text-white rounded-lg"
+          >
+            <a
+              href="demoTaxi.html"
+              class="px4 mx-2 decoration-transparent text-white"
+              >Search</a
+            >
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <footer class="bg-gray-200 text-center">
+      <div class="text-white p-4" style="background-color: #212529">
+        Restify &copy 2021
+      </div>
+    </footer>
+  </body>
+</html>
