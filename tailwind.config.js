@@ -16,6 +16,7 @@ module.exports = {
     extend: {
       colors: {
         oceanBlue: "#009dc4",
+        btnColor: "#0d6efd",
       },
       display: ["group-focus"],
     },
