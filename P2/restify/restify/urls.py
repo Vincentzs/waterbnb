@@ -18,6 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('notification/',include('notification.urls',namespace='notification')),
-    # path('comment/',include('comment.urls',namespace='comment')),
+    # path('reservation/',include('reservation.urls',namespace='reservation')),
     path('admin/', admin.site.urls),
 ]
