@@ -1,0 +1,5 @@
+For comments section
+
+For notification section 
+url 'notification/all/' ->  show all notification messages
+url 'notification/<int:pk>/detail/' -> user can mark the particular messages as read, can delete the view

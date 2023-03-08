@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'notification',
     'property',
     'reservation',
+    'rest_framework',
+    # 'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +76,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'restify.wsgi.application'
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
