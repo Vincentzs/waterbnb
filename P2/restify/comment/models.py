@@ -10,16 +10,16 @@ class Comment(models.Model):
 
 class PropertyComment(models.Model):
     text = models.CharField(max_length=255)
+    reply = models.ForeignKey('HostReplyComment', on_delete=models.SET_NULL, null=True)
 
 class GuestComment(models.Model):
     text = models.CharField(max_length=255)
+    reply = models.ForeignKey('HostReplyComment', on_delete=models.SET_NULL, null=True)
 
 class HostReplyComment(models.Model):
     text = models.CharField(max_length=255, null=True)
-    reply = models.ForeignKey('HostReplyComment', on_delete=models.SET_NULL, null=True)
     reply = models.ForeignKey('GuesReplyComment', on_delete=models.SET_NULL, null=True)
 
 class GuestReplyComment(models.Model):
     text = models.CharField(max_length=255, null=True)
     reply = models.ForeignKey('HostReplyComment', on_delete=models.SET_NULL, null=True)
-    reply = models.ForeignKey('GuesReplyComment', on_delete=models.SET_NULL, null=True)
