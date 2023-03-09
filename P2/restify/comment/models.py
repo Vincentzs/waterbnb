@@ -15,7 +15,7 @@ class GuestComment(models.Model):
     text = models.CharField(max_length=255)
 
 class HostReplyComment(models.Model):
-    text = models.CharField(max_length=255)
+    text = models.CharField(max_length=255, null=True)
 
 class GuestReplyComment(models.Model):
-    text = models.CharField(max_length=255)
+    text = models.CharField(max_length=255, null=True)
