@@ -3,7 +3,7 @@ from user.models import RestifyUser
 
 
 class Property(models.Model):
-    name = models.CharField(max_length=200)
+    property_name = models.CharField(max_length=200)
     description = models.TextField()
     owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)
 
