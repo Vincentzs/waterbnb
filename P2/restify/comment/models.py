@@ -18,6 +18,7 @@ class GuestComment(models.Model):
 
 class HostReplyComment(models.Model):
     text = models.CharField(max_length=255, null=True)
+    reply = models.ForeignKey('GuesReplyComment', on_delete=models.SET_NULL, null=True)
 
 class GuestReplyComment(models.Model):
     text = models.CharField(max_length=255, null=True)
