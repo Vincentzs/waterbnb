@@ -7,8 +7,15 @@ class Comment(models.Model):
     property_comment = models.OneToOneField('PropertyComment', on_delete=models.SET_NULL, null=True)
     guest_comment = models.OneToOneField('GuestComment', on_delete=models.SET_NULL, null=True)
 
+
 class PropertyComment(models.Model):
     text = models.CharField(max_length=255)
 
 class GuestComment(models.Model):
+    text = models.CharField(max_length=255)
+
+class HostReplyComment(models.Model):
+    text = models.CharField(max_length=255)
+
+class GuestReplyComment(models.Model):
     text = models.CharField(max_length=255)
