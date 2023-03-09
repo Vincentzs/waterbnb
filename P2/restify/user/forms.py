@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 import re
+from .models import RestifyUser
 
 
 class LoginForm(forms.Form):
@@ -34,8 +35,9 @@ class SignupForm(UserCreationForm):
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
     
     class Meta:
-        model = User
-        fields = ['username', 'first_name', 'last_name', 'email' 'phone_number', 'contact_method']
+        model = RestifyUser
+
+        fields = ['username', 'first_name', 'last_name', 'email', 'phone', 'contact_method']
         
     def clean(self):
         cleaned_data = super().clean()

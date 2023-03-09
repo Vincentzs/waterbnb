@@ -3,12 +3,11 @@ from . import views
 
 
 
-app_name="users"
+app_name="user"
 
 urlpatterns = [
-    path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('profile/', views.profile, name='profile'),
-    path('profile/update/', views.update_profile, name='update_profile'),
+    path('register/', views.RegisterView.as_view(), name='register'),
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
+    path('<int:user_id>/profile_update/', views.UpdateProfileView.as_view(), name='update_profile'),
 ]

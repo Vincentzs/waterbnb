@@ -6,57 +6,52 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer
-from .models import RestifyUser
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
-
-@api_view(['POST'])
-def register(request):
-    if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response({'user_id': user.id}, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 
 
-@api_view(['POST'])
-def login(request):
-    if request.method == 'POST':
+class RegisterView(CreateAPIView):
+    serializer_class = UserSerializer
+
+class LoginView(APIView):
+    permission_classes = (AllowAny,)
+    def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
             auth_login(request, form.cleaned_data['user'])
-            return JsonResponse({'success': True})
+            return Response({'success': True})
         else:
-            return JsonResponse(form.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(form.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def get(self, request):
+        return Response({'message': 'This endpoint supports only POST requests.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+class LogoutView(APIView):
+    permission_classes = (AllowAny)
+    def post(self, request):
+        if authenticate != None:
+            auth_logout(request)
+        return Response({'success': True})
+
+    def get(self, request):
+        return Response({'message': 'This endpoint supports only POST requests.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def logout_view(request):
-    if request.method == 'POST':
-        auth_logout(request)
-        return JsonResponse({'success': True})
+class UpdateProfileView(APIView):
+    permission_classes = (IsAuthenticated,)
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def get(self, request):
+        return Response({'message': 'Method not allowed.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
     
-
-@login_required
-@permission_classes([IsAuthenticated])
-def profile(request):
-    user = request.user
-    serializer = UserSerializer(user)
-    return JsonResponse(serializer.data)
-
-
-@login_required
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def update_profile(request):
-    user = request.user
-    serializer = UserSerializer(user, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
