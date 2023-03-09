@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import UserSerializer
-from .models import MyUser
+from .models import RestifyUser
 from .forms import LoginForm
 from django.contrib.auth.decorators import login_required
 

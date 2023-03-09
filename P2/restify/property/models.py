@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-
+from user.models import RestifyUser
 class Property(models.Model):
     name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
@@ -9,7 +8,7 @@ class Property(models.Model):
     description = models.CharField(max_length=200)
     rating = models.PositiveIntegerField()
 
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)
 
 
 

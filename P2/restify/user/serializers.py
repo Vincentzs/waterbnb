@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import MyUser
+from .models import RestifyUser
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MyUser
+        model = RestifyUser
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'phone', 'contact_method', 'profile_image']
         read_only_fields = ['id']
         extra_kwargs = {
@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        user = MyUser.objects.create_user(
+        user = RestifyUser.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
