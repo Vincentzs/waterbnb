@@ -22,7 +22,7 @@ from rest_framework.generics import CreateAPIView,RetrieveUpdateAPIView
 def reservation_list(request):
     """List all reservations for the current user"""
     if request.method == 'GET':
-        cur_user = User.objects.get(pk=2)
+        cur_user = User.objects.get(pk=1)
         # cur_user = User.objects.get(pk=request.user.id)
         reservations = Reservation.objects.filter(Q(host=cur_user) | Q(liable_guest=cur_user))
         paginator = PageNumberPagination()
@@ -94,6 +94,8 @@ class reservationCreate(CreateAPIView):
             reservation.reservation_status = serializer.validated_data.get('reservation_status')
             # reservation.place = serializer.validated_data.get('place')
             reservation = serializer.save()
+            # Check if the reservation status needs to be updated to "expired"
+            reservation.check_reservation_status()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class reservationCancel(RetrieveUpdateAPIView):
@@ -144,7 +146,7 @@ class reservationCancel(RetrieveUpdateAPIView):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         elif reservation.liable_guest == current_user and reservation.reservation_status == 'approved':
-            # after host approve the request, host canceled the reservation
+            # after host approve the request, user canceled the reservation
             serializer = self.get_serializer(instance=reservation)
             serializer_data = serializer.data
             serializer_data.update(request.data)
@@ -158,3 +160,69 @@ class reservationCancel(RetrieveUpdateAPIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'detail': 'You are not authorized to cancel this reservation.'}, status=status.HTTP_403_FORBIDDEN)
+
+class reservationApprove(RetrieveUpdateAPIView):
+    current_user = User.objects.get(id=1)
+    queryset = Reservation.objects.filter(host=current_user)
+    serializer_class = reservationSerializer
+
+    def get_object(self):
+        reservation_id = self.kwargs.get('pk')
+        # self.check_object_permissions(self.request, reservation)
+        try:
+            reservation = Reservation.objects.get(id=reservation_id)
+        except reservation.DoesNotExist:
+            return Response({'detail': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
+        return reservation
+
+    def get(self, request, *args, **kwargs):
+        reservation = self.get_object()
+        current_user = User.objects.get(id=1)
+        # under pending state, if the host approve the request, change to approved status
+        if reservation.host == current_user and reservation.reservation_status == 'pending':
+            serializer = self.get_serializer(instance=reservation)
+            serializer_data = serializer.data
+            serializer_data.update(request.data)
+            serializer = self.get_serializer(instance=reservation, data=serializer_data, partial=True)
+            if serializer.is_valid():
+                reservation.reservation_status = 'approved'
+                reservation.save()
+                updated_serializer = self.get_serializer(reservation)
+                return Response(updated_serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'detail': 'You are not authorized to approve this reservation.'}, status=status.HTTP_403_FORBIDDEN)
+
+class reservationComplete(RetrieveUpdateAPIView):
+    current_user = User.objects.get(pk=1)
+    # current_user = User.objects.get(pk=request.user.id)
+    queryset = Reservation.objects.filter(Q(host=current_user) | Q(liable_guest=current_user))
+    serializer_class = reservationSerializer
+
+    def get_object(self):
+        reservation_id = self.kwargs.get('pk')
+        # self.check_object_permissions(self.request, reservation)
+        try:
+            reservation = Reservation.objects.get(id=reservation_id)
+        except reservation.DoesNotExist:
+            return Response({'detail': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
+        return reservation
+
+    def get(self, request, *args, **kwargs):
+        reservation = self.get_object()
+        current_user = User.objects.get(id=1)
+        if (reservation.host == current_user or reservation.liable_guest == current_user) and reservation.reservation_status == 'approved':
+            serializer = self.get_serializer(instance=reservation)
+            serializer_data = serializer.data
+            serializer_data.update(request.data)
+            serializer = self.get_serializer(instance=reservation, data=serializer_data, partial=True)
+            if serializer.is_valid():
+                reservation.reservation_status = 'completed'
+                reservation.save()
+                updated_serializer = self.get_serializer(reservation)
+                return Response(updated_serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'detail': 'You are not authorized to complete this reservation.'}, status=status.HTTP_403_FORBIDDEN)
