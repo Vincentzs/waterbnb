@@ -1,5 +1,18 @@
 For comments section
 
-For notification section 
+For Notification section 
 url 'notification/all/' ->  show all notification messages
 url 'notification/<int:pk>/detail/' -> user can mark the particular messages as read, can delete the view
+
+For Reservation section 
+url 'reservation/all/' -> show all reservations for the loggin user
+url 'reservation/all/<str:criteria>/'-> for the loggin user, it will show reservations that be filter filter by user type(host/guest) 
+                                    or filter by status(pending, denied, expired,approved, canceled, terminated, completed)
+url 'reservation/create' -> user makes request to reserve 
+url 'reservation/<int:pk>/cancel/' -> <int:pk> is the reservation_id
+                                   -> 1. if the logged_in user is the liable_guest, and the reservation has already been approved by host before,
+                                   -> user can cancel the reservation request, and the reservation status changes to 'canceled'
+                                   -> 2. if the logged_in user is the host, the reservation is submmited by user and the reservation_status is pending,
+                                   -> host can cancel the reservation request, and the reservation status changes to 'denied'
+                                   -> 3. if the logged_in user is the host,and the reservation has already been approved by host before,
+                                   -> host can cancel the reservation request, and the reservation status changes to 'terminated'

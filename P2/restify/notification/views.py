@@ -9,9 +9,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
 from notification.models import Notification
 from notification.serializers import notificationSerializer
 
@@ -28,7 +26,7 @@ def notification_list(request):
         serializer = notificationSerializer(page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
-@api_view(['GET','DELETE'])
+@api_view(['GET'])
 def notificationDetail(request, pk):
     try:
         notification = Notification.objects.get(pk=pk)

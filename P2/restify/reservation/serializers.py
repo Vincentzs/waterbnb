@@ -1,12 +1,33 @@
 from rest_framework import serializers
-from reservation.models import Reservation
+from reservation.models import Reservation,RES_STATUS
+from property.models import Property
+from django.contrib.auth.models import User
 
 class reservationSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    check_in = serializers.DateTimeField()
-    check_out = serializers.DateTimeField()
+    check_in = serializers.DateField(required=True)
+    check_out = serializers.DateField(required=True)
+    host = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    liable_guest = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     number_of_guests = serializers.IntegerField(min_value=0)
-    reservation_status = serializers.CharField(required=False, allow_blank=True, max_length=100)
+    reservation_status = serializers.ChoiceField(choices=RES_STATUS, default='pending')
+    # place = PrimaryKeyRelatedField(queryset=Property.objects.all())
+
+    def validate(self, obj):
+        errors = {}
+        if obj['check_in'] is None:
+            errors['check_in'] = 'Check-in date is required'
+        if obj['check_out'] is None:
+            errors['check_out'] = 'Check-out date is required'
+        if obj['check_in'] > obj['check_out']:
+            errors['date_range'] = 'Check-out date cannot be before check-in date'
+        # if obj['reservation_status'] != 'pending':
+        #     errors['reservation_status'] = 'Reservation status must be Pending when creating a new reservation'
+        if obj['host'] == obj['liable_guest']:
+            errors['Own property'] = 'Cannot reserve your own property'
+        if errors:
+            raise serializers.ValidationError(errors)
+        return obj
 
     def create(self, validated_data):
         """Create and return a new `Notification` instance"""
@@ -17,6 +38,10 @@ class reservationSerializer(serializers.Serializer):
         instance.check_in = validated_data.get('check_in', instance.check_in)
         instance.check_out = validated_data.get('check_out', instance.check_out)
         instance.number_of_guests = validated_data.get('number_of_guests', instance.number_of_guests)
+        # instance.host = validated_data.get('host', instance.host)
+        # instance.liable_guest = validated_data.get('liable_guest', instance.liable_guest)
+        # instance.place = validated_data.get('place', instance.place)
         instance.reservation_status = validated_data.get('reservation_status', instance.reservation_status)
         instance.save()
         return instance
+    
