@@ -105,9 +105,8 @@ class reservationCancel(RetrieveUpdateAPIView):
     def get_object(self):
         reservation_id = self.kwargs.get('pk')
         # self.check_object_permissions(self.request, reservation)
-        try:
-            reservation = Reservation.objects.get(id=reservation_id)
-        except reservation.DoesNotExist:
+        reservation = Reservation.objects.get(id=reservation_id)
+        if not reservation:
             return Response({'detail': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
         return reservation
 
@@ -188,9 +187,8 @@ class reservationApprove(RetrieveUpdateAPIView):
     def get_object(self):
         reservation_id = self.kwargs.get('pk')
         # self.check_object_permissions(self.request, reservation)
-        try:
-            reservation = Reservation.objects.get(id=reservation_id)
-        except reservation.DoesNotExist:
+        reservation = Reservation.objects.get(id=reservation_id)
+        if not reservation:
             return Response({'detail': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
         return reservation
 
@@ -229,9 +227,8 @@ class reservationComplete(RetrieveUpdateAPIView):
     def get_object(self):
         reservation_id = self.kwargs.get('pk')
         # self.check_object_permissions(self.request, reservation)
-        try:
-            reservation = Reservation.objects.get(id=reservation_id)
-        except reservation.DoesNotExist:
+        reservation = Reservation.objects.get(id=reservation_id)
+        if not reservation:
             return Response({'detail': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
         return reservation
 
