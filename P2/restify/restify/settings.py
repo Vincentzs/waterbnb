@@ -28,6 +28,7 @@ SECRET_KEY = 'django-insecure-ksm3pdwt_nr*ux0(wck8h!sg6+1y*ww=9mx9b(rq2w#gthb&2-
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTH_USER_MODEL = 'user.RestifyUser'
 
 
 # Application definition
@@ -90,9 +91,10 @@ REST_FRAMEWORK = {
 }
 
 REST_FRAMEWORK = {
-    
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+      'rest_framework_simplejwt.authentication.JWTAuthentication',
+      'rest_framework.authentication.SessionAuthentication',
+      'rest_framework.authentication.BasicAuthentication',
     )
 }
 

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from user.models import RestifyUser
 
 NOTIFICATION_TYPE_CHOICES = (
     ('reservation', 'Reservation'),
@@ -8,7 +8,12 @@ NOTIFICATION_TYPE_CHOICES = (
 )
 # Create your models here.
 class Notification(models.Model):
-    user = models.ForeignKey(User, related_name='notifications',on_delete=models.CASCADE)
+    NOTIFICATION_TYPE_CHOICES = (
+        ('reservation', 'Reservation'),
+        ('cancellation', 'Cancellation'),
+        ('approval', 'Approval'),
+    )
+    user = models.ForeignKey(RestifyUser, related_name='notifications',on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100, blank=True, default='')
     read = models.BooleanField(default=False)
