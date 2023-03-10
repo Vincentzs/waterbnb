@@ -1,11 +1,12 @@
 from rest_framework import serializers
 from .models import RestifyUser
 from rest_framework.exceptions import ValidationError
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True, required=True)
+    password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = RestifyUser
@@ -51,8 +52,8 @@ class EditUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RestifyUser
-        fields = ['first_name', 'last_name', 'profile_image',
-                  'email', 'phone', 'contact_method']
+        fields = ['password1', 'password2', 'first_name', 'last_name',
+                  'profile_image', 'email', 'phone', 'contact_method']
 
     def update(self, instance, validated_data):
         if 'password1' in validated_data:
@@ -64,8 +65,22 @@ class EditUserSerializer(serializers.ModelSerializer):
                     {'password1': ["The two password fields didn't match"]})
 
             instance.set_password(validated_data['password1'])
+            instance.profile_image = validated_data.get(
+                'profile_image', instance.profile_image)
             validated_data.pop('password1', None)
             validated_data.pop('password2', None)
             instance.save()
 
         return super().update(instance, validated_data)
+
+# class LogOutSerializer(serializers.Serializer):
+#     refresh = serializers.CharField()
+#     def validate(self, attrs):
+#         self.token = attrs['refresh']
+#         return attrs
+    
+#     def save(self, **kwargs):
+#         try:
+#             RefreshToken(self.token).blacklist()
+#         except TokenError:
+#             self.fail('bad token')
