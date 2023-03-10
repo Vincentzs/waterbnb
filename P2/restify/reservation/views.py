@@ -16,6 +16,8 @@ from property.models import Property
 from django.contrib.auth.models import User
 from django.db.models import Q
 from rest_framework.generics import CreateAPIView,RetrieveUpdateAPIView
+from notification.models import Notification
+from notification.serializers import notificationSerializer
 
 # Create your views here.
 @api_view(['GET'])
@@ -96,6 +98,14 @@ class reservationCreate(CreateAPIView):
             reservation = serializer.save()
             # Check if the reservation status needs to be updated to "expired"
             reservation.check_reservation_status()
+            # when user create a reservation, we should send a notification to host
+            create_not = Notification()
+            create_not.title = "New Reservation Request"
+            create_not.text = f"You have received a new reservation request for {reservation.number_of_guests} guests from {reservation.liable_guest.username}."
+            create_not.notification_type = "reservation"
+            create_not.user = reservation.host
+            create_not.save()
+            not_serializer = notificationSerializer(create_not)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class reservationCancel(RetrieveUpdateAPIView):
@@ -129,6 +139,14 @@ class reservationCancel(RetrieveUpdateAPIView):
                 reservation.reservation_status = 'denied'
                 reservation.save()
                 updated_serializer = self.get_serializer(reservation)
+                # when host denied the request, we should send a notification to user about cancellations
+                create_not = Notification()
+                create_not.title = "Host Denied Request"
+                create_not.text = f"Your request for {reservation.host.username}'s property is denied."
+                create_not.notification_type = "cancellation"
+                create_not.user = reservation.liable_guest
+                create_not.save()
+                not_serializer = notificationSerializer(create_not)
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -142,6 +160,14 @@ class reservationCancel(RetrieveUpdateAPIView):
                 reservation.reservation_status = 'terminated'
                 reservation.save()
                 updated_serializer = self.get_serializer(reservation)
+                # when host canceled the reservation after approving it
+                create_not = Notification()
+                create_not.title = "Host Terminated Request"
+                create_not.text = f"Your request for {reservation.host.username}'s property is terminated."
+                create_not.notification_type = "cancellation"
+                create_not.user = reservation.liable_guest
+                create_not.save()
+                not_serializer = notificationSerializer(create_not)
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -155,6 +181,14 @@ class reservationCancel(RetrieveUpdateAPIView):
                 reservation.reservation_status = 'canceled'
                 reservation.save()
                 updated_serializer = self.get_serializer(reservation)
+                # when user canceled the reservation after host's approval
+                create_not = Notification()
+                create_not.title = "Guest Canceled Request"
+                create_not.text = f"The reservation request from {reservation.liable_guest.username} is canceled."
+                create_not.notification_type = "cancellation"
+                create_not.user = reservation.host
+                create_not.save()
+                not_serializer = notificationSerializer(create_not)
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -188,6 +222,14 @@ class reservationApprove(RetrieveUpdateAPIView):
                 reservation.reservation_status = 'approved'
                 reservation.save()
                 updated_serializer = self.get_serializer(reservation)
+                # when host approve the request,send to guest
+                create_not = Notification()
+                create_not.title = "Host Approved Request"
+                create_not.text = f"Your request for {reservation.host.username}'s property is approved."
+                create_not.notification_type = "approval"
+                create_not.user = reservation.liable_guest
+                create_not.save()
+                not_serializer = notificationSerializer(create_not)
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

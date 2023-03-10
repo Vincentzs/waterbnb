@@ -21,8 +21,6 @@ class reservationSerializer(serializers.Serializer):
             errors['check_out'] = 'Check-out date is required'
         if obj['check_in'] > obj['check_out']:
             errors['date_range'] = 'Check-out date cannot be before check-in date'
-        # if obj['reservation_status'] != 'pending':
-        #     errors['reservation_status'] = 'Reservation status must be Pending when creating a new reservation'
         if obj['host'] == obj['liable_guest']:
             errors['Own property'] = 'Cannot reserve your own property'
         if errors:
