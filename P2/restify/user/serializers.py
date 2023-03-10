@@ -29,7 +29,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
                 last_name=validated_data['last_name'],
                 profile_image=validated_data['profile_image'],
                 email=validated_data['email'],
-                phone_num=validated_data['phone'],
+                phone=validated_data['phone'],
                 contact_method=validated_data['contact_method'],
             )
         except KeyError as e:
@@ -43,4 +43,3 @@ class GetUserSerializer(serializers.ModelSerializer):
         model = RestifyUser
         fields = ['first_name', 'last_name', 'profile_image',
                   'email', 'phone', 'contact_method']
-
