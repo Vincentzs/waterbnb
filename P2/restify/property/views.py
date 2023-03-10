@@ -7,7 +7,7 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView, \
     ListAPIView, DestroyAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Property
-from .serializers import PropertySerializer
+from .serializers import CreatePropertySerializer
 from user.models import RestifyUser
 
 
@@ -29,7 +29,7 @@ from user.models import RestifyUser
 
 class PropertyCreate(CreateAPIView):
     # permission_classes = [IsAuthenticated]
-    serializer_class = PropertySerializer
+    serializer_class = CreatePropertySerializer
 
 
 class PropertyDelete(DestroyAPIView):
@@ -42,12 +42,12 @@ class PropertyDelete(DestroyAPIView):
     #     return obj
 
     queryset = Property.objects.all()
-    serializer_class = PropertySerializer
+    serializer_class = CreatePropertySerializer
 
 
 class PropertyGetSet(RetrieveAPIView, UpdateAPIView):
     # permission_classes = [IsAuthenticated]
-    serializer_class = PropertySerializer
+    serializer_class = CreatePropertySerializer
 
     def get_object(self):
         return get_object_or_404(Property, id=self.kwargs['pk'])

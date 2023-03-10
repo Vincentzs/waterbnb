@@ -43,3 +43,29 @@ class GetUserSerializer(serializers.ModelSerializer):
         model = RestifyUser
         fields = ['first_name', 'last_name', 'profile_image',
                   'email', 'phone', 'contact_method']
+
+
+class EditUserSerializer(serializers.ModelSerializer):
+    password1 = serializers.CharField(write_only=True, required=False)
+    password2 = serializers.CharField(write_only=True, required=False)
+
+    class Meta:
+        model = RestifyUser
+        fields = ['first_name', 'last_name', 'profile_image',
+                  'email', 'phone', 'contact_method']
+
+    def update(self, instance, validated_data):
+        if 'password1' in validated_data:
+            if len(validated_data['password1']) < 8:
+                raise ValidationError({'password1': ["This password is too short. "
+                                                     "It must contain at least 8 characters"]})
+            if validated_data['password1'] != validated_data['password2']:
+                raise ValidationError(
+                    {'password1': ["The two password fields didn't match"]})
+
+            instance.set_password(validated_data['password1'])
+            validated_data.pop('password1', None)
+            validated_data.pop('password2', None)
+            instance.save()
+
+        return super().update(instance, validated_data)

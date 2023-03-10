@@ -6,6 +6,7 @@ class Property(models.Model):
     property_name = models.CharField(max_length=200)
     description = models.TextField()
     owner = models.ForeignKey(RestifyUser, on_delete=models.CASCADE)
+    property_images = models.JSONField(blank=True, default=list)
 
     # filters
     location = models.CharField(max_length=200)
