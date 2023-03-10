@@ -23,11 +23,4 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('property/',include('property.urls',namespace='property')),
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
-
-=======
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('user/',include('user.url',namespace='user')),
->>>>>>> 08efb56e8ac437376224e41f6d3f48e9ce8493eb
 ]
