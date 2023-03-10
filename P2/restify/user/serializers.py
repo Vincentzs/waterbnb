@@ -1,41 +1,45 @@
 from rest_framework import serializers
 from .models import RestifyUser
+from rest_framework.exceptions import ValidationError
 
 
-class UserSerializer(serializers.ModelSerializer):
+class CreateUserSerializer(serializers.ModelSerializer):
+    password1 = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True)
+
     class Meta:
         model = RestifyUser
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'phone', 'contact_method', 'profile_image']
-        read_only_fields = ['id']
-        extra_kwargs = {
-            'password': {'write_only': True},
-            'profile_image': {'required': False},
-        }
+        fields = ['username', 'password1', 'password2', 'first_name',
+                  'last_name', 'profile_image', 'email', 'phone', 'contact_method']
 
     def create(self, validated_data):
-        user = RestifyUser.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password'],
-            first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', ''),
-            phone=validated_data.get('phone', ''),
-            contact_method=validated_data.get('contact_method', ''),
-            profile_image=validated_data.get('profile_image', None),
-        )
+        if validated_data['password1']:
+            if len(validated_data['password1']) < 8:
+                raise ValidationError({'password1': ["This password is too short. "
+                                                     "It must contain at least 8 characters"]})
+            if validated_data['password1'] != validated_data['password2']:
+                raise ValidationError(
+                    {'password1': ["The two password fields didn't match"]})
+
+        try:
+            user = RestifyUser.objects.create_user(
+                username=validated_data['username'],
+                password=validated_data['password1'],
+                first_name=validated_data['first_name'],
+                last_name=validated_data['last_name'],
+                profile_image=validated_data['profile_image'],
+                email=validated_data['email'],
+                phone_num=validated_data['phone'],
+                contact_method=validated_data['contact_method'],
+            )
+        except KeyError as e:
+            raise ValidationError(
+                {"detail": "{error} key must be stated in form data".format(error=e)})
         return user
 
-    def update(self, instance, validated_data):
-        instance.username = validated_data.get('username', instance.username)
-        instance.email = validated_data.get('email', instance.email)
-        password = validated_data.get('password')
-        if password:
-            instance.set_password(password)
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
-        instance.phone = validated_data.get('phone', instance.phone)
-        instance.contact_method = validated_data.get('contact_method', instance.contact_method)
-        instance.profile_image = validated_data.get('profile_image', instance.profile_image)
-        instance.save()
-        return instance
 
+class GetUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RestifyUser
+        fields = ['first_name', 'last_name', 'profile_image',
+                  'email', 'phone', 'contact_method']

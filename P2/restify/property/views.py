@@ -51,3 +51,5 @@ class PropertyGetSet(RetrieveAPIView, UpdateAPIView):
 
     def get_object(self):
         return get_object_or_404(Property, id=self.kwargs['pk'])
+
+# class PropertyFilter(RetrieveAPIView):

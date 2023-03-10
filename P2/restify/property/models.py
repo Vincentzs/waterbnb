@@ -20,7 +20,10 @@ class Property(models.Model):
         ("restaurant", "Restaurant")]
     amenities = models.CharField(
         max_length=20, choices=AMENITY_CHOICES, default='')
-    
+
     # order by
     rating = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField(default=0)
+
+# class Amenity(models.Model):
+#     name = models.CharField(max_length=20)
