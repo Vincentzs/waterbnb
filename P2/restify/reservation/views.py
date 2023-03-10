@@ -1,31 +1,33 @@
 from django.shortcuts import render
 from django.contrib import admin
 from rest_framework import viewsets
-from rest_framework import permissions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse, JsonResponse
 from rest_framework import status
-from rest_framework.decorators import api_view
+from django.utils import timezone
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from reservation.models import Reservation
 from reservation.serializers import reservationSerializer
 from property.models import Property
-from django.contrib.auth.models import User
+from user.models import RestifyUser
 from django.db.models import Q
 from rest_framework.generics import CreateAPIView,RetrieveUpdateAPIView
 from notification.models import Notification
 from notification.serializers import notificationSerializer
+import copy
 
 # Create your views here.
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def reservation_list(request):
     """List all reservations for the current user"""
     if request.method == 'GET':
-        cur_user = User.objects.get(pk=1)
-        # cur_user = User.objects.get(pk=request.user.id)
+        cur_user = RestifyUser.objects.get(pk=request.user.id)
         reservations = Reservation.objects.filter(Q(host=cur_user) | Q(liable_guest=cur_user))
         paginator = PageNumberPagination()
         paginator.page_size = 2
@@ -34,33 +36,28 @@ def reservation_list(request):
         return paginator.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def reservation_list_filter(request, criteria):
     ALLOWED_STATUSES = ('pending','expired','approved', 'denied','canceled','terminated','completed')
-
-    try:
-        current_user = User.objects.get(pk=1)
-        # current_user = User.objects.get(pk=request.user.id)
-        reservations = Reservation.objects.filter(Q(host=current_user) | Q(liable_guest=current_user))
-    except reservations.DoesNotExist:
-        return Response(data={'error': 'You dont have any reservation records'},status=status.HTTP_404_NOT_FOUND)
+    current_user = RestifyUser.objects.get(pk=request.user.id)
+    reservations = Reservation.objects.filter(Q(host=current_user) | Q(liable_guest=current_user))
+    if not reservations:
+        return Response(data={'error': 'No reservation records'},status=status.HTTP_204_NO_CONTENT)
 
     if criteria == 'host':
-        try:
-            reservations = reservations.filter(host=current_user)
-        except reservations.DoesNotExist:
-            return Response(data={'error': 'You dont have records about hosting any property'},status=status.HTTP_404_NOT_FOUND)
+        reservations = reservations.filter(host=current_user)
+        if not reservations:
+            return Response(data={'error': 'No records about hosting any property'},status=status.HTTP_204_NO_CONTENT)
     elif criteria == 'guest':
-        try:
-            reservations = reservations.filter(liable_guest=current_user)
-        except reservations.DoesNotExist:
-            return Response(data={'error': 'You dont have records about requesting any reservations'},status=status.HTTP_404_NOT_FOUND)
+        reservations = reservations.filter(liable_guest=current_user)
+        if not reservations:
+            return Response(data={'error': 'No records about requesting any reservations'},status=status.HTTP_204_NO_CONTENT)
     elif criteria in ALLOWED_STATUSES:
-        try:
-            reservations =  reservations.filter(reservation_status=criteria)
-        except reservations.DoesNotExist:
-            return Response(data={'error': f'You dont have records about {criteria} reservations'},status=status.HTTP_404_NOT_FOUND)
+        reservations =  reservations.filter(_reservation_status=criteria)
+        if not reservations:
+            return Response(data={'error': f'No records about {criteria} reservations'},status=status.HTTP_204_NO_CONTENT)
     else:
-        return Response(data={'error': 'You are not enter a valid filter condition'},status=status.HTTP_400_BAD_REQUEST)
+        return Response(data={'error': 'You entered an invalid filter condition'},status=status.HTTP_400_BAD_REQUEST)
 
     paginator = PageNumberPagination()
     paginator.page_size = 2
@@ -70,21 +67,14 @@ def reservation_list_filter(request, criteria):
 
 class reservationCreate(CreateAPIView):
     serializer_class = reservationSerializer
-
+    permission_classes = [IsAuthenticated]
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        ser_data = copy.deepcopy(request.data)
+        ser_data['reservation_status'] = 'pending'
+        ser_data['liable_guest'] = request.user.id
+        serializer = self.get_serializer(data=ser_data)
         if not serializer.is_valid():
-            errors = serializer.errors
-            reservation_status = request.data.get('reservation_status')
-            cur_user = User.objects.get(pk=1)
-            # cur_user = User.objects.get(request.user.id)
-            error_messages = {}
-            if cur_user != request.data.get('liable_guest'):
-                error_messages['authentication'] = 'You should be the liable_guest in the reservation'
-            if reservation_status is not None and reservation_status != 'pending':
-                error_messages['reservation_status'] = 'Reservation status must be Pending when creating a new reservation'
-            errors.update(error_messages)
-            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             reservation_status = serializer.validated_data.get('reservation_status')
             reservation = Reservation()
@@ -96,8 +86,6 @@ class reservationCreate(CreateAPIView):
             reservation.reservation_status = serializer.validated_data.get('reservation_status')
             # reservation.place = serializer.validated_data.get('place')
             reservation = serializer.save()
-            # Check if the reservation status needs to be updated to "expired"
-            reservation.check_reservation_status()
             # when user create a reservation, we should send a notification to host
             create_not = Notification()
             create_not.title = "New Reservation Request"
@@ -109,13 +97,10 @@ class reservationCreate(CreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class reservationCancel(RetrieveUpdateAPIView):
-    # try:
-    current_user = User.objects.get(pk=1)
-    # current_user = User.objects.get(pk=request.user.id)
-    queryset = Reservation.objects.filter(Q(host=current_user) | Q(liable_guest=current_user))
+    permission_classes = [IsAuthenticated]
+    # current_user = RestifyUser.objects.get(pk=self.request.user.id)
+    queryset = Reservation.objects.all()
     serializer_class = reservationSerializer
-    # except queryset.DoesNotExist:
-    #     return Response(data={'error': 'You dont have any reservation records'},status=status.HTTP_404_NOT_FOUND)
 
     def get_object(self):
         reservation_id = self.kwargs.get('pk')
@@ -126,9 +111,9 @@ class reservationCancel(RetrieveUpdateAPIView):
             return Response({'detail': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
         return reservation
 
-    def get(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         reservation = self.get_object()
-        current_user = User.objects.get(id=1)
+        current_user = RestifyUser.objects.get(pk=request.user.id)
         # under pending state, if the host cancel the request, change to denied
         if reservation.host == current_user and reservation.reservation_status == 'pending':
             serializer = self.get_serializer(instance=reservation)
@@ -196,8 +181,8 @@ class reservationCancel(RetrieveUpdateAPIView):
             return Response({'detail': 'You are not authorized to cancel this reservation.'}, status=status.HTTP_403_FORBIDDEN)
 
 class reservationApprove(RetrieveUpdateAPIView):
-    current_user = User.objects.get(id=1)
-    queryset = Reservation.objects.filter(host=current_user)
+    permission_classes = [IsAuthenticated]
+    queryset = Reservation.objects.all()
     serializer_class = reservationSerializer
 
     def get_object(self):
@@ -209,9 +194,9 @@ class reservationApprove(RetrieveUpdateAPIView):
             return Response({'detail': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
         return reservation
 
-    def get(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         reservation = self.get_object()
-        current_user = User.objects.get(id=1)
+        current_user = RestifyUser.objects.get(pk=request.user.id)
         # under pending state, if the host approve the request, change to approved status
         if reservation.host == current_user and reservation.reservation_status == 'pending':
             serializer = self.get_serializer(instance=reservation)
@@ -237,9 +222,8 @@ class reservationApprove(RetrieveUpdateAPIView):
             return Response({'detail': 'You are not authorized to approve this reservation.'}, status=status.HTTP_403_FORBIDDEN)
 
 class reservationComplete(RetrieveUpdateAPIView):
-    current_user = User.objects.get(pk=1)
-    # current_user = User.objects.get(pk=request.user.id)
-    queryset = Reservation.objects.filter(Q(host=current_user) | Q(liable_guest=current_user))
+    permission_classes = [IsAuthenticated]
+    queryset = Reservation.objects.all()
     serializer_class = reservationSerializer
 
     def get_object(self):
@@ -251,10 +235,10 @@ class reservationComplete(RetrieveUpdateAPIView):
             return Response({'detail': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
         return reservation
 
-    def get(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         reservation = self.get_object()
-        current_user = User.objects.get(id=1)
-        if (reservation.host == current_user or reservation.liable_guest == current_user) and reservation.reservation_status == 'approved':
+        current_user = RestifyUser.objects.get(pk=request.user.id)
+        if (reservation.host == current_user or reservation.liable_guest == current_user) and reservation.reservation_status == 'approved' and reservation.check_out < timezone.now().date():
             serializer = self.get_serializer(instance=reservation)
             serializer_data = serializer.data
             serializer_data.update(request.data)
