@@ -1,10 +1,4 @@
-sudo apt install python3-pip
-sudo apt install python3-virtualenv
+sudo apt install python3-pip python3-virtualenv sqlite3
+cd restify
 virtualenv venv
-pip3 install django
-pip3 install djangorestframework
-pip3 install markdown
-pip3 install django-filter
-python3 -m pip install --upgrade pip
-python3 -m pip install --upgrade Pillow
-sudo apt install sqlite3
+pip3 install -r requirements.txt 
