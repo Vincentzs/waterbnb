@@ -8,27 +8,27 @@ from comment.models import Comment
 from user.models import RestifyUser
 from .serializers import CommentSerializer
 from rest_framework import generics
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
 class AddCommentView(CreateAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = CommentSerializer
 
     def post(self, request, *args, **kwargs):
-        try:
-            property = Property.objects.get(id=kwargs['property_id'])
-        except ObjectDoesNotExist:
-            return Response({"detail": "Property with id={id} does not exist".format(id=kwargs['property_id'])},
-                            status=status.HTTP_400_BAD_REQUEST)
-        else:
-            comment = Comment.objects.create(commenter=self.request.user, Property=property, text=request.data['text'])
+        property = get_object_or_404(Property, pk=kwargs['property_id'])
+        comment = Comment.objects.create(
+            commenter=self.request.user,
+            property=property,
+            text=request.data['text'])
         return Response(
-            {"user": comment.commenter.id, "Property": comment.property.id, "text": comment.text}
-            , status=status.HTTP_201_CREATED
+            {"user": comment.commenter.id, "property": comment.property.id, "text": comment.text}, status=status.HTTP_201_CREATED
         )
+
 
 class CommentView(generics.ListAPIView):
     serializer_class = CommentSerializer
 
     def get_queryset(self):
-        requested_property = Property.objects.filter(id=self.kwargs['pk']).first()
+        requested_property = Property.objects.filter(
+            id=self.kwargs['property_id']).first()
         return Comment.objects.filter(property=requested_property)

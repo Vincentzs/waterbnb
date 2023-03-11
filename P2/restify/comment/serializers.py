@@ -24,12 +24,12 @@ from .models import Comment
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['text']
+        fields = ['id', 'property', 'commenter', 'text']
 
     def create(self, validated_data):
         try:
             new_comment = Comment.objects.create(
-                commenter=self.context['request'].user,
+                commenter=validated_data['commenter'],
                 property=validated_data['property'],
                 text=validated_data['text']
             )

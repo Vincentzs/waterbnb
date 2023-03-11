@@ -11,7 +11,8 @@ app_name="comment"
 
 # Note: remember the requirements on who can comment/reply and how many times.
 urlpatterns = [
-    path('<int:property_id>/comments/', AddCommentView.as_view(), name='addcomment'),
-    path('<str:pk>/add-comment/', CommentView.as_view(), name='comments'),
-
+    path('property/<str:property_id>/add/', AddCommentView.as_view(), name='addcomment'),
+    path('property/<str:property_id>/all/', CommentView.as_view(), name='comments'),
+    # path('add-comment/', AddCommentView.as_view(), name='addcomment'),
+    # path('comments/', CommentView.as_view(), name='comments'),
 ]

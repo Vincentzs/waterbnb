@@ -4,33 +4,29 @@ from property.models import Property
 from django.utils.timezone import now
 
 class Comment(models.Model):
-    commenter = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name="commenter")
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="property", default=None)
+    commenter = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, null=False, blank=False)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, null=False, blank=False)
     added_date = models.DateTimeField(default=now)
-    text = models.TextField(default="enter comment")
+    text = models.CharField(max_length=300, null=False, blank=False)
     # guest_property_comment = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
     # host_guest_comment = models.OneToOneField('HostGuestComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
 
     def __str__(self):
         return 'ID: %s | %s (%s) - %s (%s)' % (self.id, self.property.property_name, self.property.id, self.commenter.username, self.commenter.id)
 
-    # def clean(self):
-    #     if self.property_comment is not None and self.guest_comment is not None:
-    #         raise ValidationError('Only one of property_comment or guest_comment can be set')
+    class Meta:
+        ordering = ['added_date']
 
-    # class Meta:
-    #     ordering = ['date']
+# class GuestPropertyComment(models.Model):
+#     text = models.TextField()
+#     reply = models.OneToOneField('HostPropertyReplyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
 
-class GuestPropertyComment(models.Model):
-    text = models.TextField()
-    reply = models.OneToOneField('HostPropertyReplyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
+# class HostPropertyReplyComment(models.Model):
+#     text = models.TextField()
+#     reply = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
 
-class HostPropertyReplyComment(models.Model):
-    text = models.TextField()
-    reply = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
-
-class GuestPropertyReplyComment(models.Model):
-    text = models.TextField()
+# class GuestPropertyReplyComment(models.Model):
+#     text = models.TextField()
 
 
 # class HostGuestComment(models.Model):
