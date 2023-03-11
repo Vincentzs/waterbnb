@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AddCommentView, AllCommentView
+from .views.property_view import AddCommentView, AllCommentView
 
 app_name="comment"
 # Comments (18 marks)

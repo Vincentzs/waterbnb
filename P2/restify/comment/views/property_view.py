@@ -7,7 +7,7 @@ from property.models import Property
 from comment.models import Comment
 from reservation.models import Reservation
 from user.models import RestifyUser
-from .serializers import CommentSerializer
+from ..serializers import CommentSerializer
 from rest_framework import generics, serializers
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
