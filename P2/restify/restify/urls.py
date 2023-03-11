@@ -18,9 +18,10 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path('notification/',include('notification.urls',namespace='notification')),
-    path('reservation/',include('reservation.urls',namespace='reservation')),
+    path('notification/', include('notification.urls', namespace='notification')),
+    path('reservation/', include('reservation.urls', namespace='reservation')),
     path('admin/', admin.site.urls),
     path('user/', include('user.urls')),
-    path('property/',include('property.urls',namespace='property')),
+    path('property/', include('property.urls', namespace='property')),
+    path('comment/', include('comment.urls', namespace='comment')),
 ]
