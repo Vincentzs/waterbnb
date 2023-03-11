@@ -32,9 +32,10 @@ class CommentView(generics.ListAPIView):
     def get_queryset(self):
         requested_property = Property.objects.filter(
             id=self.kwargs['property_id']).first()
-        paginator = PageNumberPagination()
-        paginator.page_size = 2
+        # paginator = PageNumberPagination()
+        # paginator.page_size = 2
         comments = Comment.objects.filter(property=requested_property)
-        page = paginator.paginate_queryset(comments, self.request)
-        serializer = self.serializer_class(page, many=True)
-        return paginator.get_paginated_response(serializer.data)
+        # page = paginator.paginate_queryset(comments, self.request)
+        # serializer = self.serializer_class(page, many=True)
+        # return paginator.get_paginated_response(serializer.data)
+        return comments
