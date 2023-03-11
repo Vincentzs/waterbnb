@@ -9,6 +9,7 @@ from user.models import RestifyUser
 from .serializers import CommentSerializer
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 
 class AddCommentView(CreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -31,4 +32,9 @@ class CommentView(generics.ListAPIView):
     def get_queryset(self):
         requested_property = Property.objects.filter(
             id=self.kwargs['property_id']).first()
-        return Comment.objects.filter(property=requested_property)
+        paginator = PageNumberPagination()
+        paginator.page_size = 2
+        comments = Comment.objects.filter(property=requested_property)
+        page = paginator.paginate_queryset(comments, self.request)
+        serializer = self.serializer_class(page, many=True)
+        return paginator.get_paginated_response(serializer.data)
