@@ -4,14 +4,15 @@ from property.models import Property
 from django.utils.timezone import now
 
 class Comment(models.Model):
-    added_date = models.DateTimeField(default=now, editable=False)
     commenter = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name="commenter")
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="property", default=None)
-    guest_property_comment = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    added_date = models.DateTimeField(default=now, editable=False)
+    text = models.TextField(default="enter comment")
+    # guest_property_comment = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
     # host_guest_comment = models.OneToOneField('HostGuestComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
 
     def __str__(self):
-        return '%s - %s' % (self.property.property_name, self.commenter.first_name)
+        return 'ID: %s | %s (%s) - %s (%s)' % (self.id, self.property.property_name, self.property.id, self.commenter.username, self.commenter.id)
 
     # def clean(self):
     #     if self.property_comment is not None and self.guest_comment is not None:

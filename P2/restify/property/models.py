@@ -26,5 +26,9 @@ class Property(models.Model):
     rating = models.PositiveIntegerField(default=0)
     price = models.PositiveIntegerField(default=0)
 
+    def __str__(self):
+        return '%s (%s)' % (self.property_name, self.id)
+
+
 # class Amenity(models.Model):
 #     name = models.CharField(max_length=20)
