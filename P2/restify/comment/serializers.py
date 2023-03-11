@@ -1,5 +1,9 @@
 from rest_framework import serializers
 from .models import Comment
+from property.models import Property
+from user.models import RestifyUser
+from django.utils.timezone import now
+
 # from user.serializers import UserSerializer
 # from datetime import datetime
 
@@ -22,18 +26,13 @@ from .models import Comment
 #         return comment
 
 class CommentSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    commenter = serializers.ReadOnlyField(source='commenter.id')
+    property = serializers.ReadOnlyField(source='property.id')
+
     class Meta:
         model = Comment
-        fields = ['id', 'property', 'commenter', 'text']
+        fields = '__all__'
 
-    def create(self, validated_data):
-        try:
-            new_comment = Comment.objects.create(
-                commenter=validated_data['commenter'],
-                property=validated_data['property'],
-                text=validated_data['text']
-            )
-        except KeyError as e:
-            raise serializers.ValidationError({"detail": "{error} key must be stated in form data".format(error=e)})
-        self.context['request'].user.save()
-        return new_comment
+    # def create(self, validated_data):
+    #     return Comment.objects.create(**validated_data)

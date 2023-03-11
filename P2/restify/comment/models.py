@@ -1,12 +1,11 @@
 from django.db import models
 from user.models import RestifyUser
 from property.models import Property
-from django.utils.timezone import now
 
 class Comment(models.Model):
     commenter = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, null=False, blank=False)
     property = models.ForeignKey(Property, on_delete=models.CASCADE, null=False, blank=False)
-    added_date = models.DateTimeField(default=now)
+    added_date = models.DateTimeField(auto_now_add=True)
     text = models.CharField(max_length=300, null=False, blank=False)
     # guest_property_comment = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
     # host_guest_comment = models.OneToOneField('HostGuestComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
@@ -18,7 +17,7 @@ class Comment(models.Model):
         ordering = ['added_date']
 
 # class GuestPropertyComment(models.Model):
-#     text = models.TextField()
+#     text = models.TextFie ld()
 #     reply = models.OneToOneField('HostPropertyReplyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
 
 # class HostPropertyReplyComment(models.Model):
