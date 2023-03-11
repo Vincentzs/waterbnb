@@ -6,7 +6,7 @@ from django.utils.timezone import now
 class Comment(models.Model):
     commenter = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name="commenter")
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="property", default=None)
-    added_date = models.DateTimeField(default=now, editable=False)
+    added_date = models.DateTimeField(default=now)
     text = models.TextField(default="enter comment")
     # guest_property_comment = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
     # host_guest_comment = models.OneToOneField('HostGuestComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)

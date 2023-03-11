@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from .views import AddCommentView, CommentView
 
 app_name="comment"
 # Comments (18 marks)
@@ -11,4 +11,7 @@ app_name="comment"
 
 # Note: remember the requirements on who can comment/reply and how many times.
 urlpatterns = [
+    path('<int:property_id>/comments/', AddCommentView.as_view(), name='addcomment'),
+    path('<str:pk>/add-comment/', CommentView.as_view(), name='comments'),
+
 ]

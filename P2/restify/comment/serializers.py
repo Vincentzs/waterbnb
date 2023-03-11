@@ -1,5 +1,5 @@
-# from rest_framework import serializers
-# from .models import Comment, PropertyComment, GuestComment, HostReplyComment, GuestReplyComment
+from rest_framework import serializers
+from .models import Comment
 # from user.serializers import UserSerializer
 # from datetime import datetime
 
@@ -20,3 +20,20 @@
 #             GuestComment.objects.create(comment=comment, **guest_comment_data)
 
 #         return comment
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+    def create(self, validated_data):
+        try:
+            new_comment = Comment.objects.create(
+                commenter=self.context['request'].user,
+                property=validated_data['property'],
+                text=validated_data['text']
+            )
+        except KeyError as e:
+            raise serializers.ValidationError({"detail": "{error} key must be stated in form data".format(error=e)})
+        self.context['request'].user.save()
+        return new_comment
