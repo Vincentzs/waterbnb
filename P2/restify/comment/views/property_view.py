@@ -20,9 +20,12 @@ class AddCommentView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         # need to add to check if user reserved at the current property
         property = get_object_or_404(Property, pk=kwargs['property_id'])
+        # CHECK ONE COMMENT FOR ONE GUEST
         # if Comment.objects.filter(property=property, commenter=self.request.user).exists():
         #     raise serializers.ValidationError(
         #         {'detail': 'You have already commented on this property.'})
+
+        # CHECK GUEST RESERVED
         # if Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="completed").exists() or \
         #     Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="terminated").exists():
 
