@@ -40,7 +40,6 @@ class PropertyCreate(CreateAPIView):
             for j in range(0, month_days[i]):
                 month.append(serializer.validated_data['default_price'])
             final.append(month)
-        final[1][10] = "None"
         serializer.save(owner=self.request.user, available_dates=final)
         
         

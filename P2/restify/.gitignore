@@ -1,12 +1,12 @@
-# *.pyc
-# comment/migrations
-# comment/__pycache__
-# notification/migrations
-# notification/__pycache__
-# property/migrations
-# property/__pycache__
-# reservation/migrations
-# reservation/__pycache__
-# user/migrations
-# user/__pycache__
-# restify/__pycache__
+*.pyc
+comment/migrations
+comment/__pycache__
+notification/migrations
+notification/__pycache__
+property/migrations
+property/__pycache__
+reservation/migrations
+reservation/__pycache__
+user/migrations
+user/__pycache__
+restify/__pycache__
