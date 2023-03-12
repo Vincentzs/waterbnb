@@ -2,7 +2,7 @@
 comment/migrations
 comment/__pycache__
 notification/migrations
-notification/migrations
+notification/__pycache__
 property/migrations
 property/__pycache__
 reservation/migrations

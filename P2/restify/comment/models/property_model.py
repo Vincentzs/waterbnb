@@ -1,35 +1,54 @@
 from django.db import models
 from user.models import RestifyUser
 from property.models import Property
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
+
 
 class Comment(models.Model):
-    commenter = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, null=False, blank=False)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, null=False, blank=False)
+    commenter = models.ForeignKey(
+        RestifyUser, on_delete=models.CASCADE, null=False, blank=False)
+    property = models.ForeignKey(
+        Property, on_delete=models.CASCADE, null=False, blank=False)
     added_date = models.DateTimeField(auto_now_add=True)
     text = models.CharField(max_length=300, null=False, blank=False)
-    # guest_property_comment = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
-    # host_guest_comment = models.OneToOneField('HostGuestComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    # rating = models.IntegerField(
+    #     validators=[MinValueValidator(1), MaxValueValidator(5),], null=False, blank=False)
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        default=None,
+        null=True, blank=True,
+        help_text="Rating from 1 to 5 for this comment. Replies cannot have a rating."
+    )
+    parent = models.ForeignKey(
+        'self', on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        ordering = ['-added_date']
 
     def __str__(self):
         return 'ID: %s | %s (%s) - %s (%s)' % (self.id, self.property.property_name, self.property.id, self.commenter.username, self.commenter.id)
 
-    class Meta:
-        ordering = ['added_date']
+    # replies
+    def children(self):
+        return Comment.objects.filter(parent=self)
 
-# class GuestPropertyComment(models.Model):
-#     text = models.TextFie ld()
-#     reply = models.OneToOneField('HostPropertyReplyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    def is_parent(self):
+        if self.parent is None:
+            return True
+        return False
 
-# class HostPropertyReplyComment(models.Model):
-#     text = models.TextField()
-#     reply = models.OneToOneField('GuestPropertyComment', on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    def clean(self):
+        super().clean()
+        if self.parent and self.rating:
+            raise ValidationError(
+                "Comments with parent cannot have rating value.")
+        if not self.parent and not self.rating:
+            raise ValidationError(
+                "Comments without parent must have a rating value.")
 
-# class GuestPropertyReplyComment(models.Model):
-#     text = models.TextField()
 
 
-# class HostGuestComment(models.Model):
-#     text = models.CharField(max_length=255)
 
 # class Comment(models.Model):
 #     date = models.DateTimeField(auto_now_add=True, null=True)

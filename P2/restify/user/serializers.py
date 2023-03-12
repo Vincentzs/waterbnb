@@ -10,7 +10,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RestifyUser
-        fields = ['username', 'password1', 'password2', 'first_name',
+        fields = ['id', 'username', 'password1', 'password2', 'first_name',
                   'last_name', 'profile_image', 'email', 'phone', 'contact_method']
 
     def create(self, validated_data):
@@ -42,7 +42,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class GetUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = RestifyUser
-        fields = ['first_name', 'last_name', 'profile_image',
+        fields = ['id','first_name', 'last_name', 'profile_image',
                   'email', 'phone', 'contact_method']
 
 
