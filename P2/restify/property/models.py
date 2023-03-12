@@ -51,4 +51,5 @@ class Property(models.Model):
     rating_choices = [(i, str(i)) for i in range(6)]
     rating = models.PositiveIntegerField(choices=rating_choices, default=0)
 
-
+    def __str__(self):
+        return '%s (%s)' % (self.property_name, self.id)

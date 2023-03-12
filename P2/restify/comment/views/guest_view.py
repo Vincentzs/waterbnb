@@ -34,7 +34,7 @@ class AddHostToGuestCommentView(CreateAPIView):
                     {'detail': 'Rating should be between 1 and 5.'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
-
+        
         comment = HostToGuestComment.objects.create(
             host_commenter=self.request.user,
             guest=guest,

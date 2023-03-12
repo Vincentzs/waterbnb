@@ -15,10 +15,10 @@ class Comment(models.Model):
     # rating = models.IntegerField(
     #     validators=[MinValueValidator(1), MaxValueValidator(5),], null=False, blank=False)
     rating = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
         default=None,
         null=True, blank=True,
-        help_text="Rating from 1 to 5 for this comment. Replies cannot have a rating."
+        help_text="Rating from 0 to 5 for this comment. Replies cannot have a rating."
     )
     parent = models.ForeignKey(
         'self', on_delete=models.CASCADE, null=True, blank=True)
