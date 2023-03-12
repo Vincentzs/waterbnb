@@ -21,6 +21,36 @@ from notification.models import Notification
 from notification.serializers import notificationSerializer
 import copy
 
+def change_available_dates_to_default(start_date, end_date, start_month, end_month, property_id):
+    property = Property.objects.get(id=property_id)
+    month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    for i in range(start_month-1, end_month):
+        if i == start_month-1:
+            for j in range(start_date-1, month_days[i]):
+                property.available_dates[i][j] = property.default_price
+        elif i == end_month-1:
+            for j in range(0, end_date):
+                property.available_dates[i][j] = property.default_price
+        else:
+            for j in range(0, month_days[i]):
+                property.available_dates[i][j] = property.default_price
+    property.save()
+
+def change_available_dates_to_none(start_date, end_date, start_month, end_month, property_id):
+    property = Property.objects.get(id=property_id)
+    month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    for i in range(start_month-1, end_month):
+        if i == start_month-1:
+            for j in range(start_date-1, month_days[i]):
+                property.available_dates[i][j] = "None"
+        elif i == end_month-1:
+            for j in range(0, end_date):
+                property.available_dates[i][j] = "None"
+        else:
+            for j in range(0, month_days[i]):
+                property.available_dates[i][j] = "None"
+    property.save()
+
 # Create your views here.
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -84,7 +114,7 @@ class reservationCreate(CreateAPIView):
             reservation.liable_guest = serializer.validated_data.get('liable_guest')
             reservation.number_of_guests = serializer.validated_data.get('number_of_guests')
             reservation.reservation_status = serializer.validated_data.get('reservation_status')
-            # reservation.place = serializer.validated_data.get('place')
+            reservation.place = serializer.validated_data.get('place')
             reservation = serializer.save()
             # when user create a reservation, we should send a notification to host
             create_not = Notification()
@@ -131,6 +161,13 @@ class reservationCancel(RetrieveUpdateAPIView):
                 create_not.user = reservation.liable_guest
                 create_not.save()
                 not_serializer = notificationSerializer(create_not)
+
+                # once the reservation is denied, update the property available dates
+                create_pro = Property.objects.filter(id=reservation.place.id)
+                reservation_start = serializer.validated_data.get('check_in')
+                reservation_end = serializer.validated_data.get('check_out')
+                change_available_dates_to_none(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro)
+
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -152,6 +189,13 @@ class reservationCancel(RetrieveUpdateAPIView):
                 create_not.user = reservation.liable_guest
                 create_not.save()
                 not_serializer = notificationSerializer(create_not)
+                
+                # once the reservation is terminated, update the property available dates
+                create_pro = Property.objects.filter(id=reservation.place.id)
+                reservation_start = serializer.validated_data.get('check_in')
+                reservation_end = serializer.validated_data.get('check_out')
+                change_available_dates_to_none(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro)
+
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -173,6 +217,13 @@ class reservationCancel(RetrieveUpdateAPIView):
                 create_not.user = reservation.host
                 create_not.save()
                 not_serializer = notificationSerializer(create_not)
+
+                # once the reservation is canceled, update the property available dates
+                create_pro = Property.objects.filter(id=reservation.place.id)
+                reservation_start = serializer.validated_data.get('check_in')
+                reservation_end = serializer.validated_data.get('check_out')
+                change_available_dates_to_none(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro)
+
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -213,6 +264,13 @@ class reservationApprove(RetrieveUpdateAPIView):
                 create_not.user = reservation.liable_guest
                 create_not.save()
                 not_serializer = notificationSerializer(create_not)
+
+                # once the reservation is approved by the user, we need to update the property available dates
+                create_pro = Property.objects.filter(id=reservation.place.id)
+                reservation_start = serializer.validated_data.get('check_in')
+                reservation_end = serializer.validated_data.get('check_out')
+                change_available_dates_to_default(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro)
+
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

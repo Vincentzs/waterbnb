@@ -11,7 +11,7 @@ class reservationSerializer(serializers.Serializer):
     liable_guest = serializers.PrimaryKeyRelatedField(queryset=RestifyUser.objects.all())
     number_of_guests = serializers.IntegerField(min_value=0)
     reservation_status = serializers.ChoiceField(choices=RES_STATUS, default='pending')
-    # place = serializers.PrimaryKeyRelatedField(queryset=Property.objects.all())
+    place = serializers.PrimaryKeyRelatedField(queryset=Property.objects.all(),default="")
 
     def validate(self, obj):
         errors = {}
@@ -38,7 +38,7 @@ class reservationSerializer(serializers.Serializer):
         instance.number_of_guests = validated_data.get('number_of_guests', instance.number_of_guests)
         instance.host = validated_data.get('host', instance.host)
         instance.liable_guest = validated_data.get('liable_guest', instance.liable_guest)
-        # instance.place = validated_data.get('place', instance.place)
+        instance.place = validated_data.get('place', instance.place)
         instance.reservation_status = validated_data.get('reservation_status', instance.reservation_status)
         instance.save()
         return instance

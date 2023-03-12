@@ -18,7 +18,7 @@ class Reservation(models.Model):
     check_out = models.DateField()
     host = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='hosts')
     liable_guest = models.ForeignKey(RestifyUser, on_delete=models.CASCADE, related_name='guests')
-    # place = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='places',null=True)
+    place = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='places', blank = True, null = True)
     number_of_guests = models.PositiveIntegerField(default=0)
     _reservation_status = models.CharField(max_length=25, choices=RES_STATUS, default='pending', db_column="reservation_status")
 
