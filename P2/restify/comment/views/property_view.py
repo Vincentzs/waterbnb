@@ -11,7 +11,9 @@ from ..serializers.property_serializers import CommentSerializer, CommentDetailS
 from rest_framework import generics, serializers
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
-
+from notification.models import Notification
+from notification.serializers import notificationSerializer
+import math
 
 class AddCommentView(CreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -20,53 +22,102 @@ class AddCommentView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         # need to add to check if user reserved at the current property
         property = get_object_or_404(Property, pk=kwargs['property_id'])
-        # CHECK ONE COMMENT FOR ONE GUEST
-        # if Comment.objects.filter(property=property, commenter=self.request.user).exists():
-        #     raise serializers.ValidationError(
-        #         {'detail': 'You have already commented on this property.'})
 
-        # CHECK GUEST RESERVED
-        # if Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="completed").exists() or \
-        #     Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="terminated").exists():
-
-        parent_id = request.data.get('parent')
-        rating_value = None
-        if parent_id:
-            try:
-                parent = Comment.objects.get(pk=parent_id)
-            except ObjectDoesNotExist:
-                return Response(
-                    {'detail': 'Invalid parent comment id.'},
-                    status=status.HTTP_404_NOT_FOUND
-                )
-        else:
+        parent_serializer = request.data["parent"]
+        rating_serializer = request.data["rating"]
+        text_serializer = request.data["text"]
+        # Validate Text
+        if not text_serializer:
+            raise serializers.ValidationError(
+                {'detail': 'Text invalid/empty'},
+            )
+        # Validate Rating & Parent
+        if not parent_serializer:  # this is comment
+            # CHECK ONE COMMENT FOR ONE GUEST
+            if Comment.objects.filter(property=property, commenter=self.request.user).exists():
+                raise serializers.ValidationError(
+                    {'detail': 'You have already commented on this property.'})
+            # CHECK GUEST RESERVED
+            if not (Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="completed").exists() and
+                    Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="terminated").exists()):
+                raise serializers.ValidationError(
+                    {'detail': 'You have not completed/terminated a reservation at this property.'})
             parent = None
-            rating = request.data.get('rating', None)
-            if rating and rating is not None:
-                rating_value = int(rating)
-                if rating_value < 1 or rating_value > 5:
-                    return Response(
-                        {'detail': 'Rating should be between 1 and 5.'},
-                        status=status.HTTP_400_BAD_REQUEST
+            if not rating_serializer:
+                raise serializers.ValidationError(
+                    {'detail': 'Rating invalid/empty'},
                 )
+            else:
+                if validate_rating(request.data.get('rating')):
+                    rating = int(request.data.get('rating'))
+                else:
+                    raise serializers.ValidationError(
+                        {'detail': 'Rating should be between 0 and 5'},
+                    )
+        else:  # this is reply
+            parent_id = request.data.get('parent')
+            try:
+                parent = get_object_or_404(Comment, pk=parent_id)
+                if parent.commenter == self.request.user:
+                    raise serializers.ValidationError(
+                        {'detail': 'You cannot reply to yourself'})
+            except ObjectDoesNotExist:
+                raise serializers.ValidationError(
+                    {'detail': 'Invalid parent comment id.'},
+                )
+            if rating_serializer:
+                raise serializers.ValidationError(
+                    {'detail': 'Cannot have Rating for a reply'},
+                )
+            else:
+                rating = None
 
         comment = Comment.objects.create(
             commenter=self.request.user,
             property=property,
             text=request.data['text'],
             parent=parent,
-            rating=rating_value,
+            rating=rating,
         )
-
+        check_notification_user(parent, property)
+        update_rating(property)
         serializer = CommentSerializer(comment)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        # raise serializers.ValidationError({'detail': 'You have not completed/terminated a reservation at this property.'})
+
+def validate_rating(rating):
+    if int(rating) < 0 or int(rating) > 5:
+        return False
+    return True
+
+def update_rating(property):
+    comments = Comment.objects.filter(property=property)
+    count = comments.count()
+    sum = 0
+    for comment in comments:
+        sum += comment.rating
+    property.rating = math.floor(sum/count)
+    property.save()
+
+
+def check_notification_user(parent, property):
+    create_not = Notification()
+    if not parent:
+        notify_user = property.owner
+        create_not.title = "Property Comment"
+        create_not.text = "You recieved a comment"
+    else:
+        notify_user = parent.commenter
+        create_not.title = "Property Reply"
+        create_not.text = "You recieved a reply"
+    create_not.notification_type = "approval"
+    create_not.user = notify_user
+    create_not.save()
+    not_serializer = notificationSerializer(create_not)
 
 
 class AllCommentView(generics.ListAPIView):
     serializer_class = CommentSerializer
     pagination_class = PageNumberPagination
-    pagination_class.page_size = 10
 
     def get_queryset(self):
         requested_property = Property.objects.filter(
@@ -74,6 +125,7 @@ class AllCommentView(generics.ListAPIView):
         comments = Comment.objects.filter(
             property=requested_property).filter(parent=None)
         return comments
+
 
 class DetailCommentView(generics.RetrieveAPIView):
     serializer_class = CommentDetailSerializer

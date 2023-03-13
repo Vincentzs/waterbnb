@@ -15,8 +15,9 @@ class HostToGuestComment(models.Model):
     text = models.CharField(max_length=300, null=False, blank=False)
     rating = models.IntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)],
+        default=0,
         null=False, blank=False,
-        help_text="Rating from 0 to 5 for this guest"
+        help_text="Rate from 0 to 5 for this guest",
     )
 
     def __str__(self):

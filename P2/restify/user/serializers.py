@@ -42,7 +42,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class GetUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = RestifyUser
-        fields = ['id','first_name', 'last_name', 'profile_image',
+        fields = ['id','username','first_name', 'last_name', 'profile_image',
                   'email', 'phone', 'contact_method']
 
 
