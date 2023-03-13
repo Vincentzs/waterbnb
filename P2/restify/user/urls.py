@@ -12,5 +12,5 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('logout/', UserViews.LogoutView.as_view(), name='auth_logout'),
-    path('logout/blacklist/', UserViews.BlacklistTokenUpdateView.as_view(), name='blacklist'),
+    # path('logout/blacklist/', UserViews.BlacklistTokenUpdateView.as_view(), name='blacklist'),
 ]
