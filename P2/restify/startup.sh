@@ -1,6 +1,4 @@
-sudo apt install python3-pip
-sudo apt install python3-virtualenv
-virtualenv venv
+python3 -m pip install virtualenv
+virtualenv -p /usr/local/bin/python3 venv
 source venv/bin/activate
-cd restify
 pip3 install -r requirements.txt 

@@ -1,3 +1,3 @@
-python3 ./restify/manage.py makemigrations
-python3 ./restify/manage.py migrate
-python3 ./restify/manage.py runserver
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
