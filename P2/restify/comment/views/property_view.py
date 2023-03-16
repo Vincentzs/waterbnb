@@ -21,88 +21,92 @@ class AddCommentView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         # need to add to check if user reserved at the current property
-        property = get_object_or_404(Property, pk=kwargs['property_id'])
+        try:
+            property = get_object_or_404(Property, pk=kwargs['property_id'])
 
-        parent_serializer = request.data["parent"]
-        rating_serializer = request.data["rating"]
-        text_serializer = request.data["text"]
-        # Validate Text
-        if not text_serializer:
-            raise serializers.ValidationError(
-                {'detail': 'Text invalid/empty'},
-            )
-        # Validate Rating & Parent
-        if not parent_serializer:  # this is comment
-            # CHECK ONE COMMENT FOR ONE GUEST
-            if Comment.objects.filter(property=property, commenter=self.request.user).exists():
+            parent_serializer = request.data["parent"]
+            rating_serializer = request.data["rating"]
+            text_serializer = request.data["text"]
+            # Validate Text
+            if not text_serializer:
                 raise serializers.ValidationError(
-                    {'detail': 'You have already commented on this property.'})
-            # CHECK GUEST RESERVED
-            if not (Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="completed").exists() and
-                    Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="terminated").exists()):
-                raise serializers.ValidationError(
-                    {'detail': 'You have not completed/terminated a reservation at this property.'})
-            parent = None
-            if not rating_serializer:
-                raise serializers.ValidationError(
-                    {'detail': 'Rating invalid/empty'},
+                    {'detail': 'Text invalid/empty'},
                 )
-            else:
-                if validate_rating(request.data.get('rating')):
-                    rating = int(request.data.get('rating'))
-                else:
-                    raise serializers.ValidationError(
-                        {'detail': 'Rating should be between 0 and 5'},
-                    )
-        else:  # this is reply
-            parent_id = request.data.get('parent')
-            try:
-                parent = get_object_or_404(Comment, pk=parent_id)
+            # Validate Rating & Parent
+            if not parent_serializer:  # this is comment
+                # CHECK ONE COMMENT FOR ONE GUEST
                 if Comment.objects.filter(property=property, commenter=self.request.user).exists():
                     raise serializers.ValidationError(
-                        {'detail': 'You have already replied on this comment.'})
-                if parent.commenter == self.request.user:
+                        {'detail': 'You have already commented on this property.'})
+                # CHECK GUEST RESERVED
+                if not (Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="completed").exists() and
+                        Reservation.objects.filter(place=property, liable_guest=self.request.user, _reservation_status="terminated").exists()):
                     raise serializers.ValidationError(
-                        {'detail': 'You cannot reply to yourself'})
-            except ObjectDoesNotExist:
-                raise serializers.ValidationError(
-                    {'detail': 'Invalid parent comment id.'},
-                )
-            if rating_serializer:
-                raise serializers.ValidationError(
-                    {'detail': 'Cannot have Rating for a reply'},
-                )
-            else:
-                rating = None
+                        {'detail': 'You have not completed/terminated a reservation at this property.'})
+                parent = None
+                if not rating_serializer:
+                    raise serializers.ValidationError(
+                        {'detail': 'Rating invalid/empty'},
+                    )
+                else:
+                    if validate_rating(request.data.get('rating')):
+                        rating = int(request.data.get('rating'))
+                    else:
+                        raise serializers.ValidationError(
+                            {'detail': 'Rating should be between 0 and 5'},
+                        )
+            else:  # this is reply
+                parent_id = request.data.get('parent')
+                try:
+                    parent = get_object_or_404(Comment, pk=parent_id)
+                    if Comment.objects.filter(property=property, commenter=self.request.user).exists():
+                        raise serializers.ValidationError(
+                            {'detail': 'You have already replied on this comment.'})
+                    if parent.commenter == self.request.user:
+                        raise serializers.ValidationError(
+                            {'detail': 'You cannot reply to yourself'})
+                except ObjectDoesNotExist:
+                    raise serializers.ValidationError(
+                        {'detail': 'Invalid parent comment id.'},
+                    )
+                if rating_serializer:
+                    raise serializers.ValidationError(
+                        {'detail': 'Cannot have Rating for a reply'},
+                    )
+                else:
+                    rating = None
 
-        comment = Comment.objects.create(
-            commenter=self.request.user,
-            property=property,
-            text=request.data['text'],
-            parent=parent,
-            rating=rating,
-        )
-        check_notification_user(parent, property)
-        update_rating(property)
-        serializer = CommentSerializer(comment)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+            comment = Comment.objects.create(
+                commenter=self.request.user,
+                property=property,
+                text=request.data['text'],
+                parent=parent,
+                rating=rating,
+            )
+            check_notification_user(parent, property)
+            update_rating(property)
+            serializer = CommentSerializer(comment)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except ValueError as e:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 def validate_rating(rating):
     if int(rating) < 0 or int(rating) > 5:
         return False
     return True
 
 def update_rating(property):
-    comments = Comment.objects.filter(property=property)
-    count = comments.count()
-    sum = 0
-    for comment in comments:
-        if comment.rating == None:
-            continue
-        sum += comment.rating
-    property.rating = math.floor(sum/count)
-    property.save()
-
+    try:
+        comments = Comment.objects.filter(property=property)
+        count = comments.count()
+        sum = 0
+        for comment in comments:
+            if comment.rating == None:
+                continue
+            sum += comment.rating
+        property.rating = math.floor(sum/count)
+        property.save()
+    except ValueError as e:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 def check_notification_user(parent, property):
     create_not = Notification()
