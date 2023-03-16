@@ -27,7 +27,7 @@ def notification_list(request):
         serializer = notificationSerializer(page, many=True)
         return paginator.get_paginated_response(serializer.data)
 
-@api_view(['GET'])
+@api_view(['GET','DELETE'])
 @permission_classes([IsAuthenticated])
 def notificationDetail(request, pk):
     try:
