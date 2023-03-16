@@ -58,6 +58,9 @@ class AddCommentView(CreateAPIView):
             parent_id = request.data.get('parent')
             try:
                 parent = get_object_or_404(Comment, pk=parent_id)
+                if Comment.objects.filter(property=property, commenter=self.request.user).exists():
+                    raise serializers.ValidationError(
+                        {'detail': 'You have already replied on this comment.'})
                 if parent.commenter == self.request.user:
                     raise serializers.ValidationError(
                         {'detail': 'You cannot reply to yourself'})
