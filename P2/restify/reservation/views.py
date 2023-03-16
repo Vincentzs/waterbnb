@@ -165,7 +165,7 @@ class reservationCancel(RetrieveUpdateAPIView):
                 create_pro = reservation.place
                 reservation_start = serializer.validated_data.get('check_in')
                 reservation_end = serializer.validated_data.get('check_out')
-                change_available_dates_to_none(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro.id)
+                change_available_dates_to_default(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro.id)
 
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
@@ -193,7 +193,7 @@ class reservationCancel(RetrieveUpdateAPIView):
                 create_pro = reservation.place
                 reservation_start = serializer.validated_data.get('check_in')
                 reservation_end = serializer.validated_data.get('check_out')
-                change_available_dates_to_none(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro.id)
+                change_available_dates_to_default(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro.id)
 
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
@@ -221,7 +221,7 @@ class reservationCancel(RetrieveUpdateAPIView):
                 create_pro = reservation.place
                 reservation_start = serializer.validated_data.get('check_in')
                 reservation_end = serializer.validated_data.get('check_out')
-                change_available_dates_to_none(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro.id)
+                change_available_dates_to_default(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro.id)
 
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
@@ -268,7 +268,7 @@ class reservationApprove(RetrieveUpdateAPIView):
                 create_pro = reservation.place
                 reservation_start = serializer.validated_data.get('check_in')
                 reservation_end = serializer.validated_data.get('check_out')
-                change_available_dates_to_default(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro.id)
+                change_available_dates_to_none(reservation_start.day, reservation_end.day, reservation_start.month, reservation_end.month, create_pro.id)
                 
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
