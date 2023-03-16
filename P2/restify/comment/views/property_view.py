@@ -94,6 +94,8 @@ def update_rating(property):
     count = comments.count()
     sum = 0
     for comment in comments:
+        if comment.rating == None:
+            continue
         sum += comment.rating
     property.rating = math.floor(sum/count)
     property.save()
