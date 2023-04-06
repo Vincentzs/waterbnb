@@ -1,0 +1,11 @@
+.calculator {
+    display: grid;
+    grid-template-columns: auto;
+    margin: 0.5rem;
+    gap: 0.5rem;
+}
+
+.display {
+    grid-column: 1/5;
+    font-size: 2rem;
+}
