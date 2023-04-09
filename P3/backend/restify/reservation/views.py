@@ -423,6 +423,22 @@ class reservationComplete(RetrieveUpdateAPIView):
                 reservation.reservation_status = 'completed'
                 reservation.save()
                 updated_serializer = self.get_serializer(reservation)
+                # when the reservation is compled, send notification to both host and guest
+                create_not = Notification()
+                create_not.title = "Reservation complete"
+                create_not.text = f"The reservation with {reservation.liable_guest.username} is completed."
+                create_not.notification_type = "reservation"
+                create_not.user = reservation.host
+                create_not.save()
+                not_serializer = notificationSerializer(create_not)
+                # when the reservation is compled, send notification to both host and guest
+                anotherNot = Notification()
+                anotherNot.title = "Reservation complete"
+                anotherNot.text = f"Your reservation for {reservation.host.username}'s property is completed."
+                anotherNot.notification_type = "reservation"
+                anotherNot.user = reservation.liable_guest
+                anotherNot.save()
+                another_serializer = notificationSerializer(anotherNot)
                 return Response(updated_serializer.data, status=status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
