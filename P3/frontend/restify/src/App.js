@@ -1,28 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
-// import MessageList from './components/MessageList';
-// import { NotificationContext, useNotificationContext } from './contexts/NotificationContext';
-import {BrowserRouter,Routes,Route} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Notification from './pages/notification';
+import ReservationApp from './pages/reservationApprove';
+import ReservationCre from './pages/reservationCreate';
+import ReservationCom from './pages/reservationComplete';
+import ReservationCan from './pages/resercationCancel';
 
 function App() {
-  // return (
-  //   <main>
-  //     <NotificationContext.Provider value={useNotificationContext()}>
-  //       <MessageList />
-  //     </NotificationContext.Provider>
-  //   </main>
-  // );
-  
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path='/'>
-        <Route path="notification" element={<Notification />} />
-      </Route>
-    </Routes>
+      <Routes>
+        <Route path='/'>
+          <Route path="notification" element={<Notification />} />
+          <Route path='reservation/create' element={<ReservationCre />} />
+          <Route path='reservation/:resid/approve' element={<ReservationApp />} />
+          <Route path='reservation/:resid/complete' element={<ReservationCom />} />
+          <Route path='reservation/:resid/cancel' element={<ReservationCan />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

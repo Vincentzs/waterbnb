@@ -9,8 +9,8 @@ class CreatePropertySerializer(ModelSerializer):
     
     class Meta:
         model = Property
-        fields = ['property_name', 'description', 'location', 'guest_capacity', 'amenity', 'default_price', "property_images"]
-        read_only_fields = ['id']
+        fields = ['id','property_name', 'description', 'location', 'guest_capacity', 'amenity', 'default_price', "property_images"]
+        # read_only_fields = ['id']
         
     # def create(self, validated_data):
         
