@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { ReservationContext } from "../../contexts/ReservationContext";
 import { Modal, Form, Button, Container, Alert, Select } from 'react-bootstrap';
+import PopModal from "../PopupModal";
 
 const AMENITY_CHOICES = [
     { value: "pool", label: "Pool" },
@@ -20,7 +21,7 @@ const AMENITY_CHOICES = [
 ];
 
 const ReservationCreate = () => {
-    const { formData, setFormData, guest, setGuest, setHostList, hostList, propertyList, setPropertyList, amenities, setAmenities, success, setSuccess } = useContext(ReservationContext);
+    const { formData, setFormData, guest, setGuest, setHostList, hostList, propertyList, setPropertyList, amenities, setAmenities, success, setSuccess, handleShow } = useContext(ReservationContext);
 
     // fetch the host list and guest, once people mount the website
     useEffect(() => {
@@ -29,7 +30,7 @@ const ReservationCreate = () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                // "Authorization": "Bearer " + token
+                "Authorization": `Bearer ${window.localStorage['jwt']}`
             },
         })
             .then((response) => response.json())
@@ -40,7 +41,7 @@ const ReservationCreate = () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                // "Authorization": "Bearer " + token
+                "Authorization": `Bearer ${window.localStorage['jwt']}`
             },
         })
             .then((response) => response.json())
@@ -62,58 +63,75 @@ const ReservationCreate = () => {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                // "Authorization": "Bearer " + token
+                "Authorization": `Bearer ${window.localStorage['jwt']}`
             },
         })
             .then((response) => response.json())
             .then((data) => setPropertyList(data.results));
     }, [amenities]);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        setSuccess("");
-        const errors = [];
-        const today = new Date().toISOString().slice(0, 10);
-        const checkInDate = formData.check_in;
-        const checkOutDate = formData.check_out;
-
-        if (checkInDate < today) {
-            errors.push("Error: Check-in date cannot be before today.");
-        }
-
-        if (checkOutDate <= checkInDate) {
-            errors.push("Error: Check-out date must be after check-in date.");
-        }
-
-        if (formData.number_of_guests <= 0) {
-            errors.push("Error: Number of guests must be a valid number.");
-        }
-
-        if (errors.length > 0) {
-            // Display error messages
-            const errorMessage = errors.join("\n");
-            setSuccess(errorMessage);
-            return;
-        }
-
-        fetch('http://localhost:8000//reservation/create/', {
-            mode: "cors",
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: {
-                'Content-Type': 'application/json'
+    function waitForCond(variable) {
+        function waitFor(result) {
+            if (result !== undefined) {
+                return result;
             }
-        })
-            .then(response => {
-                if (response.status === 201) {
-                    const newWindow = window.open('', 'Reservation Success', 'height=200,width=400');
-                    newWindow.document.write('<h1>You reserve the property successfully!</h1>');
-                } else {
-                    setSuccess("Error: Fail to make the reservation.");
+            return new Promise((resolve) => setTimeout(resolve, 100))
+                .then(() => Promise.resolve(window[variable]))
+                .then((res) => waitFor(res));
+        }
+        return waitFor();
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        handleShow();
+        let user_selection = await waitForCond('popupagreed');
+        if (user_selection) {
+            setSuccess("");
+            const errors = [];
+            const today = new Date().toISOString().slice(0, 10);
+            const checkInDate = formData.check_in;
+            const checkOutDate = formData.check_out;
+
+            if (checkInDate < today) {
+                errors.push("Error: Check-in date cannot be before today.");
+            }
+
+            if (checkOutDate <= checkInDate) {
+                errors.push("Error: Check-out date must be after check-in date.");
+            }
+
+            if (formData.number_of_guests <= 0) {
+                errors.push("Error: Number of guests must be a valid number.");
+            }
+
+            if (errors.length > 0) {
+                // Display error messages
+                const errorMessage = errors.join("\n");
+                setSuccess(errorMessage);
+                return;
+            }
+
+            fetch('http://localhost:8000//reservation/create/', {
+                mode: "cors",
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${window.localStorage['jwt']}`
                 }
             })
-    };
+                .then(response => {
+                    if (response.status === 201) {
+                        alert("You reserve the property successfully!")
+                        // const newWindow = window.open('', 'Reservation Success', 'height=200,width=400');
+                        // newWindow.document.write('<h1></h1>');
+                    } else {
+                        alert("You failed to make the reservation.")
+                    }
+                })
+        }
+    }
 
     const handleInputChange = (event) => {
         const name = event.target.name;
@@ -199,6 +217,7 @@ const ReservationCreate = () => {
                     </Button>
                 </div>
             </Form>
+            <PopModal title={"Create a resercation"} content={"Are you sure that you want to make the resercation?"} />
         </Container>
     );
 };

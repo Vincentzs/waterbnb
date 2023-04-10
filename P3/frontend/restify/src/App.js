@@ -5,12 +5,14 @@ import ReservationApp from './pages/reservationApprove';
 import ReservationCre from './pages/reservationCreate';
 import ReservationCom from './pages/reservationComplete';
 import ReservationCan from './pages/resercationCancel';
+import Login from './components/login';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/'>
+          <Route path="user/login" element={<Login />} />
           <Route path="notification" element={<Notification />} />
           <Route path='reservation/create' element={<ReservationCre />} />
           <Route path='reservation/:resid/approve' element={<ReservationApp />} />

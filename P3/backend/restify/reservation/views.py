@@ -350,7 +350,6 @@ class reservationApprove(RetrieveUpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         reservation = self.get_object()
-        # current_user = RestifyUser.objects.get(pk=1)
         current_user = RestifyUser.objects.get(pk=request.user.id)
         # under pending state, if the host approve the request, change to approved status
         if reservation.host == current_user and reservation.reservation_status == 'pending':

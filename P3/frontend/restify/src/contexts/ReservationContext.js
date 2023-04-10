@@ -22,6 +22,20 @@ export const useReservationContext = () => {
     const [detail, setDetail] = useState([]);
     const [errorMes, seterrorMes] = useState('');
 
+    const [show, setShow] = useState(false);
+    const handleConti = () => {
+        window['popupagreed'] = true;
+        setShow(false);
+    }
+    const handleClose = () => {
+        window['popupagreed'] = false;
+        setShow(false);
+    }
+    const handleShow = () => {
+        delete window['popupagreed'];
+        setShow(true);
+    }
+
     return {
         formData, setFormData,
         hostList, setHostList,
@@ -31,5 +45,9 @@ export const useReservationContext = () => {
         success, setSuccess,
         detail, setDetail,
         errorMes, seterrorMes,
+        show, setShow,
+        handleClose,
+        handleShow,
+        handleConti,
     };
 };
