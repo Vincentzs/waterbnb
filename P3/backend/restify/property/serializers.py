@@ -1,31 +1,22 @@
-from rest_framework.serializers import ModelSerializer, CharField
+from rest_framework.serializers import ModelSerializer
 from .models import Property
-from rest_framework.exceptions import ValidationError
-from django.shortcuts import get_object_or_404
-from user.models import RestifyUser
+from rest_framework import serializers
 from rest_framework import fields
+from .models import Property, PropertyImage
+
+
+class PropertyImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PropertyImage
+        fields = ('image', 'property')
+
+
 class CreatePropertySerializer(ModelSerializer):
     amenity = fields.MultipleChoiceField(choices=Property.AMENITY_CHOICES)
-    
+    images = PropertyImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Property
-        fields = ['property_name', 'description', 'location', 'guest_capacity', 'amenity', 'default_price', "property_images"]
+        fields = ('id', 'property_name', 'description', 'location',
+                  'guest_capacity', 'amenity', 'default_price', 'images')
         read_only_fields = ['id']
-        
-    # def create(self, validated_data):
-        
-    #     try:
-    #         property = Property.objects.create(
-    #             property_name=validated_data['property_name'],
-    #             description=validated_data['description'],
-    #             location=validated_data['location'],
-    #             guest_capacity=validated_data['guest_capacity'],
-    #             amenity=validated_data['amenity'],
-    #             default_price=validated_data['default_price'],
-    #             property_images=validated_data['property_images'],
-    #             onwer=self.r
-    #         )
-    #     except KeyError as e:
-    #         raise ValidationError(
-    #             {"detail": "{error} key must be stated in form data".format(error=e)})
-    #     return property
