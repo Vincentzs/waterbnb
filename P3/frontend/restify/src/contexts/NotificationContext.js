@@ -20,4 +20,4 @@ export function useNotificationContext() {
     detail, setDetail,
     showDelete, setShowDelete,
   };
-}
+};

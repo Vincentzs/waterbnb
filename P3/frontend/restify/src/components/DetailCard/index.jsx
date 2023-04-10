@@ -5,7 +5,7 @@ import { NotificationContext } from "../../contexts/NotificationContext";
 import EmptyCard from "../EmptyCard";
 
 const DetailCard = ({ detail, resetDetail, id }) => {
-  const {showDetail, showDelete, setShowDelete,setShowDetail } = useContext(NotificationContext);
+  const { showDetail, showDelete, setShowDelete, setShowDetail } = useContext(NotificationContext);
 
   const handleDelete = () => {
     fetch(`http://127.0.0.1:8000/notification/${id}/detail/`, {
@@ -13,25 +13,26 @@ const DetailCard = ({ detail, resetDetail, id }) => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        // "Authorization": "Bearer " + token
+        "Authorization": `Bearer ${window.localStorage['jwt']}`
       },
     })
-      .then(response=>{
-        if (response.status===200) {
-            return response.json();
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
         }
       })
       .then(
         json => {
-            console.log(json);
-            // setShowDetail(id);
-            setShowDelete(true);
+          console.log(json);
+          // setShowDetail(id);
+          setShowDelete(true);
+          //alert("try to delete!!!");
         })
       .catch((error) => console.log(error));
   };
 
   if (showDelete && showDetail === id) {
-    return <EmptyCard id={id}/>;
+    return <EmptyCard id={id} />;
   } else {
     return (
       <Row className="justify-content-md-center my-3">

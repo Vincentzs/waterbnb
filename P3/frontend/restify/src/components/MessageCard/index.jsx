@@ -5,19 +5,19 @@ import { NotificationContext } from "../../contexts/NotificationContext";
 import DetailCard from "../DetailCard";
 
 const MessageCard = ({ message }) => {
-  const {showDetail, setShowDetail, detail, setDetail, resetDetail } = useContext(NotificationContext);
-  
+  const { showDetail, setShowDetail, detail, setDetail, resetDetail } = useContext(NotificationContext);
+
   const handleReadMore = () => {
     fetch(`http://127.0.0.1:8000/notification/${message.id}/detail/`, {
       mode: "cors",
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // "Authorization": "Bearer " + token
+        "Authorization": `Bearer ${window.localStorage['jwt']}`
       },
     })
       .then(response => {
-        if (response.status===200) {
+        if (response.status === 200) {
           return response.json();
         }
       })
