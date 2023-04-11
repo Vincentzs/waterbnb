@@ -80,11 +80,13 @@ const ReservationApprove = () => {
                 })
                 .catch((error) => seterrorMes(error));
         }
-        if (isSameUser(detail.host)) {
-            window.location.href = "/reservation/hostlist";
-        } else {
-            window.location.href = "/reservation/guestlist";
-        }
+        // if (isSameUser(detail.host)) {
+        //     window.location.href = "/reservation/hostlist";
+        // } else {
+        //     window.location.href = "/reservation/guestlist";
+        // }
+        window.location.href = "/reservation/reservation-list";
+
     };
 
     return (
