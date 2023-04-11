@@ -82,7 +82,7 @@ const ReservationComplete = () => {
                 })
                 .catch((error) => seterrorMes(error));
         }
-        window.location.href = "/reservation-list";
+        window.location.href = "/reservationlist";
     };
 
     return (

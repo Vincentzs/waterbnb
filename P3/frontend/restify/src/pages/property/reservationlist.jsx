@@ -1,43 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
-function ReservationList() {
-
+const ReservationList = () => {
   return (
-    <div>
+    <div className="text-center">
       <h1>Reservation List</h1>
       <Link to="/reservation/hostlist">
-        <button>Show Host Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Host Reservations
+        </Button>
       </Link>
       <Link to="/reservation/guestlist">
-        <button>Show Guest Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Guest Reservations
+        </Button>
       </Link>
       <Link to="/reservation/completedlist">
-        <button>Show Completed Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Completed Reservations
+        </Button>
       </Link>
       <Link to="/reservation/deniedlist">
-        <button>Show Denied Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Denied Reservations
+        </Button>
       </Link>
       <Link to="/reservation/canceledlist">
-        <button>Show Cancelled Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Cancelled Reservations
+        </Button>
       </Link>
       <Link to="/reservation/approvedlist">
-        <button>Show Approved Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Approved Reservations
+        </Button>
       </Link>
       <Link to="/reservation/pendinglist">
-        <button>Show Pending Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Pending Reservations
+        </Button>
       </Link>
       <Link to="/reservation/terminatedlist">
-        <button>Show Terminated Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Terminated Reservations
+        </Button>
       </Link>
       <Link to="/reservation/expiredlist">
-        <button>Show Expired Reservations</button>
+        <Button variant="outline-success" className="m-2">
+          Show Expired Reservations
+        </Button>
       </Link>
-
-      
-
     </div>
   );
-}
+};
 
 export default ReservationList;

@@ -1,17 +1,18 @@
+import ReservationPendingList from "../../components/ReservationPending";
 import ReservationList from "../../components/ReservationPending";
 import {
   ReservationContext,
   useReservationContext,
 } from "../../contexts/ReservationContext";
 
-const ReservationHost = () => {
+const ReservationPend = () => {
   return (
     <main>
       <ReservationContext.Provider value={useReservationContext()}>
-        <ReservationList />
+        <ReservationPendingList />
       </ReservationContext.Provider>
     </main>
   );
 };
 
-export default ReservationHost;
+export default ReservationPend;

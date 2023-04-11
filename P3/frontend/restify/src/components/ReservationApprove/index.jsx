@@ -85,8 +85,7 @@ const ReservationApprove = () => {
         // } else {
         //     window.location.href = "/reservation/guestlist";
         // }
-        window.location.href = "/reservation-list";
-
+        // window.location.href = "/reservationlist";
     };
 
     return (

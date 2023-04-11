@@ -1,17 +1,18 @@
+import ReservationTerminatedList from "../../components/ReservationTerminated";
 import ReservationList from "../../components/ReservationTerminated";
 import {
   ReservationContext,
   useReservationContext,
 } from "../../contexts/ReservationContext";
 
-const ReservationHost = () => {
+const ReservationTerm = () => {
   return (
     <main>
       <ReservationContext.Provider value={useReservationContext()}>
-        <ReservationList />
+        <ReservationTerminatedList />
       </ReservationContext.Provider>
     </main>
   );
 };
 
-export default ReservationHost;
+export default ReservationTerm;

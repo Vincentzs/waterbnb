@@ -1,17 +1,18 @@
+import ReservationCanceledList from "../../components/ReservationCanceled";
 import ReservationList from "../../components/ReservationCanceled";
 import {
   ReservationContext,
   useReservationContext,
 } from "../../contexts/ReservationContext";
 
-const ReservationHost = () => {
+const ReservationCancel = () => {
   return (
     <main>
       <ReservationContext.Provider value={useReservationContext()}>
-        <ReservationList />
+        <ReservationCanceledList />
       </ReservationContext.Provider>
     </main>
   );
 };
 
-export default ReservationHost;
+export default ReservationCancel;

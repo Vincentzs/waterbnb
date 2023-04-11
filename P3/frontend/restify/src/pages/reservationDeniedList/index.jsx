@@ -1,17 +1,17 @@
-import ReservationList from "../../components/ReservationDenied";
+import ReservationDeniedList from "../../components/ReservationDenied";
 import {
   ReservationContext,
   useReservationContext,
 } from "../../contexts/ReservationContext";
 
-const ReservationHost = () => {
+const ReservationDeni = () => {
   return (
     <main>
       <ReservationContext.Provider value={useReservationContext()}>
-        <ReservationList />
+        <ReservationDeniedList />
       </ReservationContext.Provider>
     </main>
   );
 };
 
-export default ReservationHost;
+export default ReservationDeni;

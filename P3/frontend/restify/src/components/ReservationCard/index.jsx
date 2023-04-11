@@ -60,11 +60,10 @@ const ReserCard = ({ reservationDetail }) => {
             </Button>
             <Button
               style={{
-                display: `${
-                  reservationDetail.reservation_status === "approved"
+                display: `${reservationDetail.reservation_status === "approved"
                     ? ""
                     : "none"
-                }`,
+                  }`,
               }}
               variant={"outline-success"}
               id={`complete-${reservationDetail.id}`}

@@ -1,17 +1,17 @@
-import ReservationList from "../../components/ReservationCompleted";
+import ReservationCompletedList from "../../components/ReservationCompleted";
 import {
   ReservationContext,
   useReservationContext,
 } from "../../contexts/ReservationContext";
 
-const ReservationHost = () => {
+const ReservationComp = () => {
   return (
     <main>
       <ReservationContext.Provider value={useReservationContext()}>
-        <ReservationList />
+        <ReservationCompletedList />
       </ReservationContext.Provider>
     </main>
   );
 };
 
-export default ReservationHost;
+export default ReservationComp;
