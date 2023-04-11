@@ -21,24 +21,30 @@ function UserProperties() {
   }, []);
 
   const handleDelete = async (propertyId) => {
-    const response = await fetch(
-      `http://127.0.0.1:8000/property/delete/${propertyId}/`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${window.localStorage["jwt"]}`,
-        },
-      }
-    );
-
-    if (response.ok) {
-      setMessage("Property deleted successfully");
-      setProperties(
-        properties.filter((property) => property.id !== propertyId)
+    if (window.confirm("Are you sure you want to delete this property?")) {
+      const response = await fetch(
+        `http://127.0.0.1:8000/property/delete/${propertyId}/`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${window.localStorage["jwt"]}`,
+          },
+        }
       );
-    } else {
-      setMessage("Error deleting property");
+
+      if (response.ok) {
+        setMessage("Property deleted successfully");
+        setProperties(
+          properties.filter((property) => property.id !== propertyId)
+        );
+      } else {
+        setMessage("Error deleting property");
+      }
     }
+  };
+
+  const handleEdit = (propertyId) => {
+    window.location.href = `property-update/${propertyId}/`;
   };
 
   return (
@@ -53,6 +59,7 @@ function UserProperties() {
             <li key={property.id}>
               {property.property_name}{" "}
               <button onClick={() => handleDelete(property.id)}>Delete</button>
+              <button onClick={() => handleEdit(property.id)}>Edit</button>
             </li>
           ))}
         </ul>
