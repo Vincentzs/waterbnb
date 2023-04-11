@@ -1,16 +1,16 @@
 from django.db import models
 from user.models import RestifyUser
 from multiselectfield import MultiSelectField
-from multiselectfield.validators import MaxValueMultiFieldValidator
+
 
 class Property(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     property_name = models.CharField(max_length=200)
     description = models.TextField()
-    owner = models.ForeignKey(RestifyUser, on_delete=models.SET_NULL, null=True, blank=True)
-    property_images = models.JSONField(blank=True, default=list, null=True)
+    owner = models.ForeignKey(
+        RestifyUser, on_delete=models.SET_NULL, null=True, blank=True)
     default_price = models.PositiveIntegerField()
-    
+
     # filters
     CHOICES_LOCATION = (
         ("AB", "Alberta"),
@@ -46,10 +46,10 @@ class Property(models.Model):
         ("airconditioning", "AirConditioning"),
         ("heating", "Heating")]
     amenity = MultiSelectField(choices=AMENITY_CHOICES, max_length=255)
+    rating = models.PositiveIntegerField(default=0, null=True, blank=True)
 
-    # order by
-    rating_choices = [(i, str(i)) for i in range(6)]
-    rating = models.PositiveIntegerField(choices=rating_choices, default=0)
 
-    def __str__(self):
-        return '%s (%s)' % (self.property_name, self.id)
+class PropertyImage(models.Model):
+    property = models.ForeignKey(
+        Property, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='property_images/')

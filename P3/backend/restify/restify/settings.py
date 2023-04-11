@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,7 @@ CORS_ALLOW_METHODS = [
     'PATCH',
     # add any other allowed methods here
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'restify.urls'
 
