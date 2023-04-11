@@ -23,29 +23,14 @@ function App() {
           <Route path="reservation/create" element={<ReservationCre />} />
           <Route path='reservation/hostlist' element={<ReservationHos />} />
           {/* <Route path='reservation/guestlist' element={<ReservationHos />} /> */}
-          <Route
-            path="reservation/:resid/approve"
-            element={<ReservationApp />}
-          />
-          <Route
-            path="reservation/:resid/complete"
-            element={<ReservationCom />}
-          />
-          <Route
-            path="reservation/:resid/cancel"
-            element={<ReservationCan />}
-          />
+          <Route path="reservation/:resid/approve" element={<ReservationApp />} />
+          <Route path="reservation/:resid/complete" element={<ReservationCom />} />
+          <Route path="reservation/:resid/cancel" element={<ReservationCan />} />
           <Route path="property-search" element={<PropertySearch />} />
-          <Route
-            path="property-detail/:propertyId"
-            element={<PropertyDetail />}
-          />
+          <Route path="property-detail/:propertyId" element={<PropertyDetail />} />
           <Route path="property-create" element={<PropertyCreate />} />
           <Route path="image-uploader" element={<ImageUploader />} />
-          <Route
-            path="property-update/:propertyId"
-            element={<PropertyUpdate />}
-          />
+          <Route path="property-update/:propertyId" element={<PropertyUpdate />} />
         </Route >
       </Routes >
     </BrowserRouter >
