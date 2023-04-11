@@ -19,7 +19,12 @@ const ReservationApprove = () => {
                 "Authorization": `Bearer ${window.localStorage['jwt']}`
             },
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 401) {
+                    window.location.href = "/user/login";
+                }
+                return response.json();
+            })
             .then((data) => setDetail(data[0]));
     }, []);
 
