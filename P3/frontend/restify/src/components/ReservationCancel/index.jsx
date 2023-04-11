@@ -82,11 +82,12 @@ const ReservationCancel = () => {
                 })
                 .catch(error => { console.log(error); });
         }
-        if (isSameUser(detail.host)) {
-            window.location.href = "/reservation/hostlist";
-        } else {
-            window.location.href = "/reservation/guestlist";
-        }
+        // if (isSameUser(detail.host)) {
+        //     window.location.href = "/reservation/hostlist";
+        // } else {
+        //     window.location.href = "/reservation/guestlist";
+        // }
+        window.location.href = "/reservation-list";
     }
 
     return (
