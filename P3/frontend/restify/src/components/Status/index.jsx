@@ -3,14 +3,14 @@ import { Card, Button, Row, Col, Container, Pagination } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReserCard from "../ReservationCard";
 
-const ReservationExpiredList = () => {
-  const [hostList, setHostList] = useState([]);
+const StatusList = ({ selectedStatus }) => {
+  const [statusList, setStatusList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   // get the fetched the current page reservation message
   useEffect(() => {
-    fetch(`http://localhost:8000/reservation/all/expired/?page=${page}`, {
+    fetch(`http://localhost:8000/reservation/all/${selectedStatus}/?page=${page}`, {
       mode: "cors",
       method: "GET",
       headers: {
@@ -24,12 +24,11 @@ const ReservationExpiredList = () => {
         }
       })
       .then((json) => {
-        console.log(json);
-        setHostList(json.results);
+        setStatusList(json.results);
         setTotalPages(json.count); // Assuming the API returns the total_pages value
       })
       .catch((error) => console.error(error));
-  }, [page]);
+  }, [page, selectedStatus]);
 
   const handlePrevPage = () => {
     if (page > 1) {
@@ -45,7 +44,7 @@ const ReservationExpiredList = () => {
 
   return (
     <Container>
-      {hostList.map((message) => (
+      {statusList.map((message) => (
         <ReserCard key={message.id} reservationDetail={message} />
       ))}
       <Pagination className="justify-content-center mt-3">
@@ -60,4 +59,4 @@ const ReservationExpiredList = () => {
   );
 };
 
-export default ReservationExpiredList;
+export default StatusList;
