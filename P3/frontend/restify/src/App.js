@@ -6,6 +6,8 @@ import PropertyDetail from "./pages/property/PropertyDetail";
 import PropertyCreate from "./pages/property/PropertyCreate";
 import ImageUploader from "./pages/property/ImageUploader";
 import PropertyUpdate from "./pages/property/PropertyUpdate";
+import UserProperties from "./pages/property/UserProperties";
+
 import ReservationApp from "./pages/reservationApprove";
 import ReservationCre from "./pages/reservationCreate";
 import ReservationCom from "./pages/reservationComplete";
@@ -43,6 +45,7 @@ function App() {
             path="property-update/:propertyId"
             element={<PropertyUpdate />}
           />
+          <Route path="user-properties" element={<UserProperties />} />
         </Route>
       </Routes>
     </BrowserRouter>

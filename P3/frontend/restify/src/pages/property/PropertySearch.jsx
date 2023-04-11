@@ -49,6 +49,9 @@ const PropertySearchPage = () => {
       console.error(error);
     }
   };
+
+
+  
   const handlePreviousPage = (e) => {
     if (previousPage) {
       setCurrentPage(currentPage - 1);

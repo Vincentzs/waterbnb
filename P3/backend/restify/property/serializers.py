@@ -8,7 +8,7 @@ from .models import Property, PropertyImage
 class PropertyImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = PropertyImage
-        fields = ('image', 'property')
+        fields = ('id', 'image', 'property')
 
 
 class CreatePropertySerializer(ModelSerializer):

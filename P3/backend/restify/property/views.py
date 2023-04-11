@@ -11,26 +11,40 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import login as normal_login, authenticate
 import datetime
 from rest_framework.generics import RetrieveAPIView
-from rest_framework.permissions import AllowAny
 from .models import Property
 from .serializers import CreatePropertySerializer
 from .serializers import PropertyImageSerializer
 from .models import PropertyImage
 from rest_framework.response import Response
 from rest_framework import status
+from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .models import PropertyImage
+
+
+class PropertyListByUser(ListAPIView):
+    serializer_class = CreatePropertySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Property.objects.filter(owner=user)
+
 
 
 class PropertyImageUpload(CreateAPIView):
     queryset = PropertyImage.objects.all()
     serializer_class = PropertyImageSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         property_id = self.kwargs.get('propertyId')
         property_instance = get_object_or_404(Property, id=property_id)
 
-        # if request.user != property_instance.owner:
-        #     return Response(status=status.HTTP_403_FORBIDDEN)
+        if request.user != property_instance.owner:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         images = request.FILES.getlist('images')
         if not images:
@@ -43,67 +57,21 @@ class PropertyImageUpload(CreateAPIView):
         return Response({"detail": "Images uploaded successfully."}, status=status.HTTP_201_CREATED)
 
 
-def change_available_dates_to_none(start_date, end_date, start_month, end_month, property_id):
-    property = Property.objects.get(id=property_id)
-    month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    for i in range(start_month-1, end_month):
-        if i == start_month-1:
-            for j in range(start_date-1, month_days[i]):
-                property.available_dates[i][j] = "None"
-        elif i == end_month-1:
-            for j in range(0, end_date):
-                property.available_dates[i][j] = "None"
-        else:
-            for j in range(0, month_days[i]):
-                property.available_dates[i][j] = "None"
-    property.save()
-
-
-def change_available_dates_to_price(start_date, end_date, start_month, end_month, property_id, price):
-    property = Property.objects.get(id=property_id)
-    month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    for i in range(start_month-1, end_month):
-        if i == start_month-1:
-            for j in range(start_date-1, month_days[i]):
-                property.available_dates[i][j] = price
-        elif i == end_month-1:
-            for j in range(0, end_date):
-                property.available_dates[i][j] = price
-        else:
-            for j in range(0, month_days[i]):
-                property.available_dates[i][j] = price
-    property.save()
-
-
-def change_available_dates_to_default(start_date, end_date, start_month, end_month, property_id):
-    property = Property.objects.get(id=property_id)
-    month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    for i in range(start_month-1, end_month):
-        if i == start_month-1:
-            for j in range(start_date-1, month_days[i]):
-                property.available_dates[i][j] = property.default_price
-        elif i == end_month-1:
-            for j in range(0, end_date):
-                property.available_dates[i][j] = property.default_price
-        else:
-            for j in range(0, month_days[i]):
-                property.available_dates[i][j] = property.default_price
-    property.save()
-
-
-def validate_date_range(start_date, end_date, start_month, end_month):
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_image(request, image_id):
     try:
-        start_date = int(start_date)
-        end_date = int(end_date)
-        start_month = int(start_month)
-        end_month = int(end_month)
-        datetime.datetime(2001, start_date, start_month)
-        datetime.datetime(2001, end_date, end_month)
-    except ValueError:
-        raise Http404("Invalid input for date or month")
+        image = PropertyImage.objects.get(id=image_id)
 
-    # If all checks pass, return the valid dates as integers
-    return start_date, end_date, start_month, end_month
+        # You can add a check here to ensure the user is authorized to delete the image.
+        if request.user != image.property.owner:
+            return JsonResponse({"detail": "Unauthorized"}, status=status.HTTP_403_FORBIDDEN)
+
+        image.delete()
+        return JsonResponse({"detail": "Image deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+    except PropertyImage.DoesNotExist:
+        return JsonResponse({"detail": "Image not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
 class PropertyRetrieve(RetrieveAPIView):
@@ -119,7 +87,7 @@ class PropertyRetrieve(RetrieveAPIView):
 
 class PropertyCreate(CreateAPIView):
     serializer_class = CreatePropertySerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -129,7 +97,7 @@ class PropertyCreate(CreateAPIView):
             for j in range(0, month_days[i]):
                 month.append(serializer.validated_data['default_price'])
             final.append(month)
-        # serializer.save(owner=self.request.user, available_dates=final)
+        serializer.save(owner=self.request.user, available_dates=final)
         serializer.save(available_dates=final)
 
         return super().perform_create(serializer)
@@ -137,7 +105,7 @@ class PropertyCreate(CreateAPIView):
 
 class PropertyDelete(DestroyAPIView):
     serializer_class = CreatePropertySerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request, *args, **kwargs):
         p_id = self.kwargs['pk']
@@ -153,7 +121,7 @@ class PropertyDelete(DestroyAPIView):
 
 class PropertyUpdate(UpdateAPIView):
     serializer_class = CreatePropertySerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def update(self, request, *args, **kwargs):
         if self.request.user != self.get_object().owner:
@@ -172,8 +140,7 @@ class PropertyUpdate(UpdateAPIView):
         if start_date and end_date and start_month and end_month:
             start_date, end_date, start_month, end_month = validate_date_range(
                 start_date, end_date, start_month, end_month)
-
-            if setnone and setprice:
+            if setnone == "true" and setprice is not None:
                 raise Http404
             if setnone == "true":
                 change_available_dates_to_none(
@@ -265,3 +232,66 @@ class PropertySearch(ListAPIView):
         page = paginator.paginate_queryset(queryset, request)
         serializer = CreatePropertySerializer(page, many=True)
         return paginator.get_paginated_response(serializer.data)
+
+
+def change_available_dates_to_none(start_date, end_date, start_month, end_month, property_id):
+    property = Property.objects.get(id=property_id)
+    month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    for i in range(start_month-1, end_month):
+        if i == start_month-1:
+            for j in range(start_date-1, month_days[i]):
+                property.available_dates[i][j] = "None"
+        elif i == end_month-1:
+            for j in range(0, end_date):
+                property.available_dates[i][j] = "None"
+        else:
+            for j in range(0, month_days[i]):
+                property.available_dates[i][j] = "None"
+    property.save()
+
+
+def change_available_dates_to_price(start_date, end_date, start_month, end_month, property_id, price):
+    property = Property.objects.get(id=property_id)
+    month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    for i in range(start_month-1, end_month):
+        if i == start_month-1:
+            for j in range(start_date-1, month_days[i]):
+                property.available_dates[i][j] = price
+        elif i == end_month-1:
+            for j in range(0, end_date):
+                property.available_dates[i][j] = price
+        else:
+            for j in range(0, month_days[i]):
+                property.available_dates[i][j] = price
+    property.save()
+
+
+def change_available_dates_to_default(start_date, end_date, start_month, end_month, property_id):
+    property = Property.objects.get(id=property_id)
+    month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    for i in range(start_month-1, end_month):
+        if i == start_month-1:
+            for j in range(start_date-1, month_days[i]):
+                property.available_dates[i][j] = property.default_price
+        elif i == end_month-1:
+            for j in range(0, end_date):
+                property.available_dates[i][j] = property.default_price
+        else:
+            for j in range(0, month_days[i]):
+                property.available_dates[i][j] = property.default_price
+    property.save()
+
+
+def validate_date_range(start_date, end_date, start_month, end_month):
+    try:
+        start_date = int(start_date)
+        end_date = int(end_date)
+        start_month = int(start_month)
+        end_month = int(end_month)
+        datetime.datetime(2001, start_date, start_month)
+        datetime.datetime(2001, end_date, end_month)
+    except ValueError:
+        raise Http404("Invalid input for date or month")
+
+    # If all checks pass, return the valid dates as integers
+    return start_date, end_date, start_month, end_month
