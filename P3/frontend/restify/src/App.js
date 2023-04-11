@@ -20,14 +20,9 @@ function App() {
         <Route path="/">
           <Route path="user/login" element={<Login />} />
           <Route path="notification" element={<Notification />} />
-<<<<<<< HEAD
-          <Route path='reservation/hostlist' element={<ReservationHos />} />
-          <Route path='reservation/create' element={<ReservationCre />} />
-          <Route path='reservation/:resid/approve' element={<ReservationApp />} />
-          <Route path='reservation/:resid/complete' element={<ReservationCom />} />
-          <Route path='reservation/:resid/cancel' element={<ReservationCan />} />
-=======
           <Route path="reservation/create" element={<ReservationCre />} />
+          <Route path='reservation/hostlist' element={<ReservationHos />} />
+          {/* <Route path='reservation/guestlist' element={<ReservationHos />} /> */}
           <Route
             path="reservation/:resid/approve"
             element={<ReservationApp />}
@@ -51,7 +46,6 @@ function App() {
             path="property-update/:propertyId"
             element={<PropertyUpdate />}
           />
->>>>>>> f0a5ea58f5ff1d2c1402e104de7ecea7fbc4f056
         </Route >
       </Routes >
     </BrowserRouter >

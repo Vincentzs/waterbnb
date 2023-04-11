@@ -16,7 +16,8 @@ const ReserCard = ({ reservationDetail }) => {
         return isSameUser(reservationDetail.host) && reservationDetail.reservation_status === "pending";
     }
     function canCancel(reservationDetail) {
-        return reservationDetail.reservation_status in ['pending', 'approved'];
+        // console.log(reservationDetail.reservation_status);
+        return ['pending', 'approved'].includes(reservationDetail.reservation_status);
     }
     console.log(ReservationContext);
     return (
