@@ -8,7 +8,7 @@ const DetailCard = ({ detail, resetDetail, id }) => {
   const { showDetail, showDelete, setShowDelete, setShowDetail } = useContext(NotificationContext);
 
   const handleDelete = () => {
-    fetch(`http://127.0.0.1:8000/notification/${id}/detail/`, {
+    fetch(`http://localhost:8000/notification/${id}/detail/`, {
       mode: "cors",
       method: "DELETE",
       headers: {

@@ -8,16 +8,17 @@ const PopModal = ({ title, content }) => {
 
     return (
         <>
+            {/* used template from react modal! */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{content}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="outline-info" onClick={handleClose}>
                         No
                     </Button>
-                    <Button variant="primary" onClick={handleConti}>
+                    <Button variant="outline-primary" onClick={handleConti}>
                         Yes
                     </Button>
                 </Modal.Footer>

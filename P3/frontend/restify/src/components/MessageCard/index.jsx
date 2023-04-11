@@ -8,7 +8,7 @@ const MessageCard = ({ message }) => {
   const { showDetail, setShowDetail, detail, setDetail, resetDetail } = useContext(NotificationContext);
 
   const handleReadMore = () => {
-    fetch(`http://127.0.0.1:8000/notification/${message.id}/detail/`, {
+    fetch(`http://localhost:8000/notification/${message.id}/detail/`, {
       mode: "cors",
       method: "GET",
       headers: {
