@@ -13,8 +13,9 @@ import ReservationCre from "./pages/reservationCreate";
 import ReservationCom from "./pages/reservationComplete";
 import ReservationCan from "./pages/resercationCancel";
 import Login from "./components/login";
-import ReservationHos from "./pages/reservationHostList";
-
+import ReservationHost from "./pages/reservationHostList";
+import ReservationGuest from "./pages/reservationGuestList";
+import ReservationList from "./pages/property/reservationlist";
 function App() {
   return (
     <BrowserRouter>
@@ -23,8 +24,8 @@ function App() {
           <Route path="user/login" element={<Login />} />
           <Route path="notification" element={<Notification />} />
           <Route path="reservation/create" element={<ReservationCre />} />
-          <Route path="reservation/hostlist" element={<ReservationHos />} />
-          {/* <Route path='reservation/guestlist' element={<ReservationHos />} /> */}
+          <Route path="reservation/hostlist" element={<ReservationHost />} />
+          <Route path="reservation/guestlist" element={<ReservationGuest />} />
           <Route
             path="reservation/:resid/approve"
             element={<ReservationApp />}
@@ -49,6 +50,7 @@ function App() {
             element={<PropertyUpdate />}
           />
           <Route path="user-properties" element={<UserProperties />} />
+          <Route path="reservation-list" element={<ReservationList />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,7 +1,7 @@
 import ReservationHostList from "../../components/ReservationHost";
 import { ReservationContext, useReservationContext } from "../../contexts/ReservationContext";
 
-const ReservationHos = () => {
+const ReservationHost = () => {
     return (
         <main>
             <ReservationContext.Provider value={useReservationContext()}>
@@ -11,4 +11,4 @@ const ReservationHos = () => {
     );
 }
 
-export default ReservationHos;
+export default ReservationHost;
