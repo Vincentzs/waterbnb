@@ -87,7 +87,7 @@ const ReservationCancel = () => {
         // } else {
         //     window.location.href = "/reservation/guestlist";
         // }
-        // window.location.href = "/reservationlist";
+        window.location.href = "/reservationlist";
     }
 
     return (
