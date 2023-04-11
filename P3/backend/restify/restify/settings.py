@@ -68,10 +68,15 @@ CORS_ALLOW_METHODS = [
     'POST',
     'DELETE',
     'PATCH',
+    "OPTIONS",
+    "PUT",
     # add any other allowed methods here
 ]
 CORS_ALLOW_ALL_ORIGINS = True
-
+CORS_ALLOWED_ORIGINS = ["*"]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React development server
+]
 ROOT_URLCONF = 'restify.urls'
 
 TEMPLATES = [

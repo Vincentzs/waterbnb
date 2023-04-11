@@ -22,6 +22,9 @@ const ImageUploader = () => {
         {
           method: "POST",
           body: formData,
+          headers: {
+            Authorization: `Bearer ${window.localStorage["jwt"]}`,
+          },
         }
       );
 

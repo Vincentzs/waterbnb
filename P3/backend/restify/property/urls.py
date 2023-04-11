@@ -12,4 +12,10 @@ urlpatterns = [
          views.PropertyRetrieve.as_view(), name='property-detail'),
     path('property_image_upload/<int:propertyId>/',
          views.PropertyImageUpload.as_view(), name='property-image-upload'),
+    path('delete_image/<int:image_id>/',
+         views.delete_image, name='delete_image'),
+    path('properties_by_user/', views.PropertyListByUser.as_view(),
+         name='properties_by_user'),
+
+
 ]

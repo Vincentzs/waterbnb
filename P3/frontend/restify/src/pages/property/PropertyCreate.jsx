@@ -75,7 +75,7 @@ const PropertyCreate = () => {
       location,
       guest_capacity,
       amenity,
-      rating,
+      // rating,
       property_image: propertyImageBase64,
     };
 
@@ -84,6 +84,7 @@ const PropertyCreate = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${window.localStorage["jwt"]}`,
         },
         body: JSON.stringify(requestBody),
       });
