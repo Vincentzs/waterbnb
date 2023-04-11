@@ -7,7 +7,7 @@ import PopModal from "../PopupModal";
 
 const ReservationCancel = () => {
     const { resid } = useParams();
-    const { detail, setDetail, errorMes, seterrorMes, handleShow } = useContext(ReservationContext);
+    const { detail, setDetail, errorMes, seterrorMes, handleShow, isSameUser } = useContext(ReservationContext);
 
     useEffect(() => {
         setDetail('');
@@ -77,6 +77,11 @@ const ReservationCancel = () => {
                 })
                 .catch(error => { console.log(error); });
         }
+        if (isSameUser(detail.host)) {
+            window.location.href = "/reservation/hostlist";
+        } else {
+            window.location.href = "/reservation/guestlist";
+        }
     }
 
     return (
@@ -87,7 +92,6 @@ const ReservationCancel = () => {
             </Container>
             <PopModal title={"Cancel the reservation"} content={"Do you want to cancel the reservation?"} />
         </>
-
     );
 };
 

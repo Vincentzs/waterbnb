@@ -7,7 +7,7 @@ import PopModal from "../PopupModal";
 
 const ReservationApprove = () => {
     const { resid } = useParams();
-    const { detail, setDetail, errorMes, seterrorMes, handleShow } = useContext(ReservationContext);
+    const { detail, setDetail, errorMes, seterrorMes, handleShow, isSameUser } = useContext(ReservationContext);
 
     useEffect(() => {
         // Using GET method to print the reservation detail for the host to review
@@ -74,6 +74,11 @@ const ReservationApprove = () => {
                     }
                 })
                 .catch((error) => seterrorMes(error));
+        }
+        if (isSameUser(detail.host)) {
+            window.location.href = "/reservation/hostlist";
+        } else {
+            window.location.href = "/reservation/guestlist";
         }
     };
 

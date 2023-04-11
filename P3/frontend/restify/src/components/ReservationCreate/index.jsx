@@ -33,7 +33,12 @@ const ReservationCreate = () => {
                 "Authorization": `Bearer ${window.localStorage['jwt']}`
             },
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.status === 401) {
+                    window.location.href = "/user/login";
+                }
+                return response.json();
+            })
             .then((data) => setHostList(data.results));
 
         fetch('http://localhost:8000/reservation/guest/', {

@@ -9,7 +9,7 @@ const MessageList = () => {
 
   // get the fetched all notification messages for the current user, allow the user to check detail card and ma
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/notification/all/`, {
+    fetch(`http://localhost:8000/notification/all/`, {
       mode: "cors",
       method: "GET",
       headers: {

@@ -7,7 +7,7 @@ import PopModal from "../PopupModal";
 
 const ReservationComplete = () => {
     const { resid } = useParams();
-    const { detail, setDetail, errorMes, seterrorMes, handleShow } = useContext(ReservationContext);
+    const { detail, setDetail, errorMes, seterrorMes, handleShow, isSameUser } = useContext(ReservationContext);
 
     useEffect(() => {
         setDetail('');
@@ -76,6 +76,12 @@ const ReservationComplete = () => {
                     }
                 })
                 .catch((error) => seterrorMes(error));
+        }
+
+        if (isSameUser(detail.host)) {
+            window.location.href = "/reservation/hostlist";
+        } else {
+            window.location.href = "/reservation/guestlist";
         }
 
     };

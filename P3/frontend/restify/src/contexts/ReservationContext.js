@@ -21,8 +21,8 @@ export const useReservationContext = () => {
     // reservation approve
     const [detail, setDetail] = useState([]);
     const [errorMes, seterrorMes] = useState('');
-
     const [show, setShow] = useState(false);
+
     const handleConti = () => {
         window['popupagreed'] = true;
         setShow(false);
@@ -34,6 +34,11 @@ export const useReservationContext = () => {
     const handleShow = () => {
         delete window['popupagreed'];
         setShow(true);
+    }
+
+    const isSameUser = (uid) => {
+        let jwt = window.localStorage['jwt'];
+        return JSON.parse(atob(jwt.split('.')[1])).user_id === uid;
     }
 
     return {
@@ -49,5 +54,6 @@ export const useReservationContext = () => {
         handleClose,
         handleShow,
         handleConti,
+        isSameUser
     };
 };

@@ -13,6 +13,7 @@ import ReservationCre from "./pages/reservationCreate";
 import ReservationCom from "./pages/reservationComplete";
 import ReservationCan from "./pages/resercationCancel";
 import Login from "./components/login";
+import ReservationHos from "./pages/reservationHostList";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
           <Route path="user/login" element={<Login />} />
           <Route path="notification" element={<Notification />} />
           <Route path="reservation/create" element={<ReservationCre />} />
+          <Route path="reservation/hostlist" element={<ReservationHos />} />
+          {/* <Route path='reservation/guestlist' element={<ReservationHos />} /> */}
           <Route
             path="reservation/:resid/approve"
             element={<ReservationApp />}
