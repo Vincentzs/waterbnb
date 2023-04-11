@@ -3,14 +3,14 @@ import { Card, Button, Row, Col, Container, Pagination } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReserCard from "../ReservationCard";
 
-const ReservationHostList = () => {
+const ReservationCanceledList = () => {
   const [hostList, setHostList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   // get the fetched the current page reservation message
   useEffect(() => {
-    fetch(`http://localhost:8000/reservation/all/host/?page=${page}`, {
+    fetch(`http://localhost:8000/reservation/all/canceled/?page=${page}`, {
       mode: "cors",
       method: "GET",
       headers: {
@@ -60,4 +60,4 @@ const ReservationHostList = () => {
   );
 };
 
-export default ReservationHostList;
+export default ReservationCanceledList;

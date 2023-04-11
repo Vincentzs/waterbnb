@@ -1,14 +1,16 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Card, Button, Row, Col, Container } from "react-bootstrap";
+import { Card, Button, Row, Col, Container, Pagination } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReserCard from "../ReservationCard";
 
 const ReservationGuestList = () => {
   const [hostList, setHostList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   // get the fetched the current page reservation message
   useEffect(() => {
-    fetch(`http://localhost:8000/reservation/all/guest/`, {
+    fetch(`http://localhost:8000/reservation/all/guest/?page=${page}`, {
       mode: "cors",
       method: "GET",
       headers: {
@@ -22,18 +24,38 @@ const ReservationGuestList = () => {
         }
       })
       .then((json) => {
+        console.log(json);
         setHostList(json.results);
+        setTotalPages(json.count); // Assuming the API returns the total_pages value
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [page]);
 
-  console.log(hostList);
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages / 2) {
+      setPage(page + 1);
+    }
+  };
 
   return (
     <Container>
       {hostList.map((message) => (
         <ReserCard key={message.id} reservationDetail={message} />
       ))}
+      <Pagination>
+        <Pagination.Prev onClick={handlePrevPage} disabled={page === 1} />
+        <Pagination.Item active>{page}</Pagination.Item>
+        <Pagination.Next
+          onClick={handleNextPage}
+          disabled={page === totalPages}
+        />
+      </Pagination>
     </Container>
   );
 };
