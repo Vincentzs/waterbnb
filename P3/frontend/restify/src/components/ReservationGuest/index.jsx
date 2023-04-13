@@ -48,7 +48,7 @@ const ReservationGuestList = () => {
       {hostList.map((message) => (
         <ReserCard key={message.id} reservationDetail={message} />
       ))}
-      <Pagination>
+      <Pagination className="justify-content-center mt-3">
         <Pagination.Prev onClick={handlePrevPage} disabled={page === 1} />
         <Pagination.Item active>{page}</Pagination.Item>
         <Pagination.Next

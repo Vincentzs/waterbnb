@@ -15,14 +15,8 @@ import ReservationCan from "./pages/resercationCancel";
 import Login from "./components/login";
 import ReservationHost from "./pages/reservationHostList";
 import ReservationGuest from "./pages/reservationGuestList";
-import ReservationList from "./pages/property/reservationlist";
-import ReservationApprovedList from "./components/ReservationApproved";
-import ReservationCompletedList from "./components/ReservationCompleted";
-import ReservationCanceledList from "./components/ReservationCanceled";
-import ReservationPendingList from "./components/ReservationPending";
-import ReservationDeniedList from "./components/ReservationDenied";
-import ReservationExpiredList from "./components/ReservationExpired";
-import ReservationTerminatedList from "./components/ReservationTerminated";
+import Reservation from "./pages/property/reservationlist";
+
 function App() {
   return (
     <BrowserRouter>
@@ -31,49 +25,13 @@ function App() {
           <Route path="user/login" element={<Login />} />
           <Route path="notification" element={<Notification />} />
           <Route path="reservation/create" element={<ReservationCre />} />
+          <Route path="reservationlist" element={<Reservation />} />
           <Route path="reservation/hostlist" element={<ReservationHost />} />
           <Route path="reservation/guestlist" element={<ReservationGuest />} />
-          <Route
-            path="reservation/approvedlist"
-            element={<ReservationApprovedList />}
-          />
-          <Route
-            path="reservation/completedlist"
-            element={<ReservationCompletedList />}
-          />
-          <Route
-            path="reservation/canceledlist"
-            element={<ReservationCanceledList />}
-          />
-          <Route
-            path="reservation/pendinglist"
-            element={<ReservationPendingList />}
-          />
-          <Route
-            path="reservation/deniedlist"
-            element={<ReservationDeniedList />}
-          />
-          <Route
-            path="reservation/expiredlist"
-            element={<ReservationExpiredList />}
-          />
-          <Route
-            path="reservation/terminatedlist"
-            element={<ReservationTerminatedList />}
-          />
+          <Route path="reservation/:resid/approve" element={<ReservationApp />} />
+          <Route path="reservation/:resid/complete" element={<ReservationCom />} />
+          <Route path="reservation/:resid/cancel" element={<ReservationCan />} />
 
-          <Route
-            path="reservation/:resid/approve"
-            element={<ReservationApp />}
-          />
-          <Route
-            path="reservation/:resid/complete"
-            element={<ReservationCom />}
-          />
-          <Route
-            path="reservation/:resid/cancel"
-            element={<ReservationCan />}
-          />
           <Route path="property-search" element={<PropertySearch />} />
           <Route
             path="property-detail/:propertyId"
@@ -86,7 +44,6 @@ function App() {
             element={<PropertyUpdate />}
           />
           <Route path="user-properties" element={<UserProperties />} />
-          <Route path="reservation-list" element={<ReservationList />} />
         </Route>
       </Routes>
     </BrowserRouter>

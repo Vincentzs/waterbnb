@@ -3,14 +3,14 @@ import { Card, Button, Row, Col, Container, Pagination } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ReserCard from "../ReservationCard";
 
-const ReservationTerminatedList = () => {
-  const [hostList, setHostList] = useState([]);
+const StatusList = ({ selectedStatus }) => {
+  const [statusList, setStatusList] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   // get the fetched the current page reservation message
   useEffect(() => {
-    fetch(`http://localhost:8000/reservation/all/terminated/?page=${page}`, {
+    fetch(`http://localhost:8000/reservation/all/${selectedStatus}/?page=${page}`, {
       mode: "cors",
       method: "GET",
       headers: {
@@ -24,12 +24,11 @@ const ReservationTerminatedList = () => {
         }
       })
       .then((json) => {
-        console.log(json);
-        setHostList(json.results);
+        setStatusList(json.results);
         setTotalPages(json.count); // Assuming the API returns the total_pages value
       })
       .catch((error) => console.error(error));
-  }, [page]);
+  }, [page, selectedStatus]);
 
   const handlePrevPage = () => {
     if (page > 1) {
@@ -45,10 +44,10 @@ const ReservationTerminatedList = () => {
 
   return (
     <Container>
-      {hostList.map((message) => (
+      {statusList.map((message) => (
         <ReserCard key={message.id} reservationDetail={message} />
       ))}
-      <Pagination>
+      <Pagination className="justify-content-center mt-3">
         <Pagination.Prev onClick={handlePrevPage} disabled={page === 1} />
         <Pagination.Item active>{page}</Pagination.Item>
         <Pagination.Next
@@ -60,4 +59,4 @@ const ReservationTerminatedList = () => {
   );
 };
 
-export default ReservationTerminatedList;
+export default StatusList;
