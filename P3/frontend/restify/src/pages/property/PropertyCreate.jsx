@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import "./PropertyCreate.css"; // import the CSS file
 const PropertyCreate = () => {
   const [property_name, setPropertyName] = useState("");
   const [description, setDescription] = useState("");
@@ -7,8 +7,6 @@ const PropertyCreate = () => {
   const [location, setLocation] = useState("");
   const [guest_capacity, setGuestCapacity] = useState("");
   const [amenity, setAmenity] = useState([]);
-  const [rating, setRating] = useState("");
-  const [propertyImage, setPropertyImage] = useState(null);
 
   const [formErrors, setFormErrors] = useState([]);
 
@@ -58,16 +56,6 @@ const PropertyCreate = () => {
     if (!validateForm()) {
       return;
     }
-
-    let propertyImageBase64 = null;
-    if (propertyImage) {
-      try {
-        propertyImageBase64 = await fileToBase64(propertyImage);
-      } catch (error) {
-        console.error("Error converting image to base64:", error);
-      }
-    }
-
     const requestBody = {
       property_name,
       description,
@@ -75,8 +63,6 @@ const PropertyCreate = () => {
       location,
       guest_capacity,
       amenity,
-      // rating,
-      property_image: propertyImageBase64,
     };
 
     try {
@@ -91,7 +77,7 @@ const PropertyCreate = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Property created:", data);
+        window.alert("Property created successfully!");
       } else {
         console.error("Error creating property:", response.statusText);
       }
@@ -112,7 +98,7 @@ const PropertyCreate = () => {
   };
 
   return (
-    <div>
+    <div className="property-create-container">
       <h1>Create Property</h1>
       {formErrors.length > 0 && (
         <div>

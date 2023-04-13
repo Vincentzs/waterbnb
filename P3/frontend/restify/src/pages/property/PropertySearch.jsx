@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "./PropertySearchPage.css";
 
 const PropertySearchPage = () => {
   const [location, setLocation] = useState("");
@@ -50,8 +51,6 @@ const PropertySearchPage = () => {
     }
   };
 
-
-  
   const handlePreviousPage = (e) => {
     if (previousPage) {
       setCurrentPage(currentPage - 1);
@@ -66,120 +65,140 @@ const PropertySearchPage = () => {
     }
   };
   return (
-    <div>
+    <div className="outer-wrapper">
       <h1>Property Search</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Location:{" "}
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Rating:{" "}
-          <input
-            type="number"
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Guest Capacity:{" "}
-          <input
-            type="number"
-            value={guestCapacity}
-            onChange={(e) => setGuestCapacity(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Amenities:{" "}
-          <input
-            type="text"
-            value={amenities}
-            onChange={(e) => setAmenities(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Order By:
-          <select value={orderBy} onChange={(e) => setOrderBy(e.target.value)}>
-            <option value="">Select order</option>
-            <option value="price">Price</option>
-            <option value="rating">Rating</option>
-          </select>
-        </label>
-        <br />
-        <label>
-          Start Date:{" "}
-          <input
-            type="number"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          End Date:{" "}
-          <input
-            type="number"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Start Month:{" "}
-          <input
-            type="number"
-            value={startMonth}
-            onChange={(e) => setStartMonth(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          End Month:{" "}
-          <input
-            type="number"
-            value={endMonth}
-            onChange={(e) => setEndMonth(e.target.value)}
-          />
-        </label>
-        <br />
-        <button type="submit">Search</button>
-      </form>
-      <ul>
-        {properties.map((property, index) => (
-          <li key={index}>
-            {" "}
-            {/* Use the index as the key */}
-            {property.property_name} - {property.location}
-            <br />
-            Rating: {property.rating}
-            <br />
-            Guest Capacity: {property.guest_capacity}
-            <br />
-            Amenities: {property.amenity.join(", ")}
-            <br />
-            Price: {property.default_price}
-            <br />
-            <Link to={`/property-detail/${property.id}/`}>
-              <button>Show more</button>
-            </Link>
-          </li>
-        ))}
-      </ul>
 
-      <button disabled={!previousPage} onClick={handlePreviousPage}>
-        Previous
-      </button>
-      <button disabled={!nextPage} onClick={handleNextPage}>
-        Next
-      </button>
+      <div className="container">
+        <div>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Location:{" "}
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Rating:{" "}
+              <input
+                type="number"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                min="1"
+              />
+            </label>
+            <br />
+            <label>
+              Number of Guest:{" "}
+              <input
+                type="number"
+                value={guestCapacity}
+                onChange={(e) => setGuestCapacity(e.target.value)}
+                min="1"
+              />
+            </label>
+            <br />
+            <label>
+              Amenities:{" "}
+              <input
+                type="text"
+                value={amenities}
+                onChange={(e) => setAmenities(e.target.value)}
+              />
+            </label>
+            <br />
+            <label>
+              Order By:
+              <select
+                value={orderBy}
+                onChange={(e) => setOrderBy(e.target.value)}
+              >
+                <option value="">Select order</option>
+                <option value="price">Price</option>
+                <option value="rating">Rating</option>
+              </select>
+            </label>
+            <br />
+            <label>
+              Start Date:{" "}
+              <input
+                type="number"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                min="1"
+                max="31"
+              />
+            </label>
+            <br />
+            <label>
+              End Date:{" "}
+              <input
+                type="number"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                min="1"
+                max="31"
+              />
+            </label>
+            <br />
+            <label>
+              Start Month:{" "}
+              <input
+                type="number"
+                value={startMonth}
+                onChange={(e) => setStartMonth(e.target.value)}
+                min="1"
+                max="12"
+              />
+            </label>
+            <br />
+            <label>
+              End Month:{" "}
+              <input
+                type="number"
+                value={endMonth}
+                onChange={(e) => setEndMonth(e.target.value)}
+                min="1"
+                max="12"
+              />
+            </label>
+            <br />
+            <button type="submit">Search</button>
+          </form>
+        </div>
+
+        <div className="results">
+          <ul>
+            {properties.map((property, index) => (
+              <li key={index}>
+                {" "}
+                {/* Use the index as the key */}
+                {property.property_name} - {property.location}
+                <br />
+                Rating: {property.rating}
+                <br />
+                Guest Capacity: {property.guest_capacity}
+                <br />
+                Amenities: {property.amenity.join(", ")}
+                <br />
+                Price: {property.default_price}
+                <br />
+                <Link to={`/property-detail/${property.id}/`}>
+                  <button>Show more</button>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <button disabled={!previousPage} onClick={handlePreviousPage}>
+            Previous
+          </button>
+          <button disabled={!nextPage} onClick={handleNextPage}>
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./UserProperties.css";
 
 function UserProperties() {
   const [properties, setProperties] = useState([]);
@@ -57,9 +58,13 @@ function UserProperties() {
         <ul>
           {properties.map((property) => (
             <li key={property.id}>
-              {property.property_name}{" "}
-              <button onClick={() => handleDelete(property.id)}>Delete</button>
-              <button onClick={() => handleEdit(property.id)}>Edit</button>
+              <div className="property-name">{property.property_name}</div>
+              <div className="buttons">
+                <button onClick={() => handleDelete(property.id)}>
+                  Delete
+                </button>
+                <button onClick={() => handleEdit(property.id)}>Edit</button>
+              </div>
             </li>
           ))}
         </ul>

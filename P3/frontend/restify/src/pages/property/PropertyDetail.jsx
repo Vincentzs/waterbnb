@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import "./PropertyDetail.css";
 
 function PropertyDetail(props) {
   const [property, setProperty] = useState(null);
@@ -10,7 +11,6 @@ function PropertyDetail(props) {
       const response = await fetch(
         `http://127.0.0.1:8000/property/property_detail/${propertyId}/`
       );
-      console.log(response);
       const data = await response.json();
       setProperty(data);
     }
@@ -18,31 +18,28 @@ function PropertyDetail(props) {
   }, [props.match]);
 
   if (!property) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   return (
-    <div>
-      <h1>{property.property_name}</h1>
-      <p>{property.description}</p>
-      <p>Location: {property.location}</p>
-      <p>Guest capacity: {property.guest_capacity}</p>
-      <p>Rating: {property.rating}</p>
-      <p>Amenities: {property.amenity.join(", ")}</p>
-      <p>Available dates:</p>
-      {/* <ul>
-        {property.available_dates.map((date, index) => (
-          <li key={index}>{date}</li>
-        ))}
-      </ul> */}
-      <div>
-        <h2>Property Images:</h2>
+    <div className="container">
+      <h1 className="heading">{property.property_name}</h1>
+      <p className="description">{property.description}</p>
+      <p className="location">Location: {property.location}</p>
+      <p className="guest-capacity">
+        Guest capacity: {property.guest_capacity}
+      </p>
+      <p className="rating">Rating: {property.rating}</p>
+      <p className="amenities">Amenities: {property.amenity.join(", ")}</p>
+      <h2>Property Images:</h2>
+
+      <div className="images">
         {property.images.map((imageObj) => (
           <img
             key={imageObj.id}
+            className="image"
             src={imageObj.image}
             alt={`Property image ${imageObj.id}`}
-            style={{ width: "200px", height: "auto", margin: "10px" }}
           />
         ))}
       </div>
