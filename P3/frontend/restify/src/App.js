@@ -12,25 +12,46 @@ import ReservationApp from "./pages/reservationApprove";
 import ReservationCre from "./pages/reservationCreate";
 import ReservationCom from "./pages/reservationComplete";
 import ReservationCan from "./pages/resercationCancel";
-import Login from "./components/login";
 import ReservationHost from "./pages/reservationHostList";
 import ReservationGuest from "./pages/reservationGuestList";
 import Reservation from "./pages/property/reservationlist";
 
+import Login from "./components/Account/Login";
+import Signup from "./components/Account/Signup";
+import Logout from "./components/Account/Logout";
+import Profile from "./components/Account/Profile";
+import EditProfile from "./components/Account/EditProfile";
+import Navbar from "./components/Navbar";
+
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/">
-          <Route path="user/login" element={<Login />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="profile-edit" element={<EditProfile />} />
+
           <Route path="notification" element={<Notification />} />
           <Route path="reservation/create" element={<ReservationCre />} />
           <Route path="reservationlist" element={<Reservation />} />
           <Route path="reservation/hostlist" element={<ReservationHost />} />
           <Route path="reservation/guestlist" element={<ReservationGuest />} />
-          <Route path="reservation/:resid/approve" element={<ReservationApp />} />
-          <Route path="reservation/:resid/complete" element={<ReservationCom />} />
-          <Route path="reservation/:resid/cancel" element={<ReservationCan />} />
+          <Route
+            path="reservation/:resid/approve"
+            element={<ReservationApp />}
+          />
+          <Route
+            path="reservation/:resid/complete"
+            element={<ReservationCom />}
+          />
+          <Route
+            path="reservation/:resid/cancel"
+            element={<ReservationCan />}
+          />
 
           <Route path="property-search" element={<PropertySearch />} />
           <Route
