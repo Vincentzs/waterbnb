@@ -29,9 +29,6 @@ const Navbar = () => {
           <li>
             <Link to="/profile">View Profile</Link>
           </li>
-          <li>
-            <Link to="/profile/edit">Edit Profile</Link>
-          </li>
         </ul>
       </nav>
     </header>

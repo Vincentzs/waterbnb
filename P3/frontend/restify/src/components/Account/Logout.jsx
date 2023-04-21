@@ -1,16 +1,16 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
 
-const Logout = () => {
-  const navigate = useNavigate();
+// const Logout = () => {
+//   const navigate = useNavigate();
 
-  useEffect(() => {
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    navigate("/login");
-  }, [navigate]);
+//   useEffect(() => {
+//     localStorage.removeItem("access");
+//     localStorage.removeItem("refresh");
+//     navigate("/login");
+//   }, [navigate]);
 
-  return null;
-};
+//   return null;
+// };
 
-export default Logout;
+// export default Logout;

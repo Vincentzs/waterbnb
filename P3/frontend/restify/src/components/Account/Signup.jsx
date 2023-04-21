@@ -37,7 +37,8 @@ function Signup() {
 
     try {
       await axios.post(API + "register/", formData);
-      window.location.href = API + "/login";
+      alert("Registered");
+      window.location.href = "/login";
     } catch (err) {
       setError("Error while signing up. Please try again.");
     }
