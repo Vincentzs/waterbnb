@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import API from "../../Api/Api";
-import authHeader from "./AuthHeader";
+import authHeader from "../../Api/AuthHeader";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [selectedFile, setSelectedFile] = React.useState();
   const navigate = useNavigate();
-  console.log("*****************************");
-  console.log(userData);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -17,8 +15,6 @@ const Profile = () => {
         const response = await axios.get(API + "/user/profile/", {
           headers: authHeader(),
         });
-        console.log("*****************************");
-        console.log(response.data);
         setUserData(response.data);
       } catch (error) {
         console.log(error);
@@ -26,11 +22,6 @@ const Profile = () => {
     };
     fetchUserData();
   }, [navigate]);
-
-  useEffect(() => {
-    console.log("************USERDATA*****************");
-    console.log(userData);
-  }, [userData]);
 
   useEffect(() => {
     if (!selectedFile) {
@@ -49,7 +40,6 @@ const Profile = () => {
   }, [selectedFile]);
 
   const handleSubmit = (event) => {
-    // console.log(event);
     event.preventDefault();
     const config = {
       headers: {
@@ -60,7 +50,6 @@ const Profile = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user && user.access) {
       config.headers["Authorization"] = "Bearer " + user.access;
-      // console.log(config);
     }
     let formData = new FormData();
 
@@ -77,21 +66,14 @@ const Profile = () => {
       formData.append("profile_image", selectedFile);
     }
 
-    // console.log(formData);
-    if (!userData) {
-      return;
-    }
-    // for (var pair of formData.entries()) {
-    //   console.log("****************************************************");
-    //   console.log(pair[0] + ": " + pair[1]);
-    //   console.log(typeof pair[0] + ": " + typeof pair[1]);
-    // }
+    console.log(formData);
     axios.put(API + "/user/profile/edit/", formData, config).then(
       (response) => {
-        // console.log(response);
+        console.log(response);
         document.location.reload();
       },
-      (reponse) => {
+      (response) => {
+        console.log(response);
         console.log("Error");
       }
     );

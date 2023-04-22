@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./UserProperties.css";
+import authHeader from "../../Api/AuthHeader";
 
 function UserProperties() {
   const [properties, setProperties] = useState([]);
@@ -10,9 +11,7 @@ function UserProperties() {
       const response = await fetch(
         "http://127.0.0.1:8000/property/properties_by_user/",
         {
-          headers: {
-            Authorization: `Bearer ${window.localStorage["jwt"]}`,
-          },
+          headers: authHeader(),
         }
       );
       const data = await response.json();
@@ -27,9 +26,7 @@ function UserProperties() {
         `http://127.0.0.1:8000/property/delete/${propertyId}/`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${window.localStorage["jwt"]}`,
-          },
+          headers: authHeader(),
         }
       );
 

@@ -23,7 +23,7 @@ const NavBar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          PropertyRental
+          Restify
         </Link>
         <button
           className="navbar-toggler"
@@ -41,13 +41,33 @@ const NavBar = () => {
             {currentUser ? (
               <>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/profile">
-                    Profile
+                  <Link className="nav-link" to="/property-search">
+                    Property Search
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/property-create">
+                    Create Property
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/user-properties">
+                    My Property
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/reservationlist">
+                    Reservation List
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/notification">
                     Notification
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/profile">
+                    Profile
                   </Link>
                 </li>
                 <li className="nav-item">

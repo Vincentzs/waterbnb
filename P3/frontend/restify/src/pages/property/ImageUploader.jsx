@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import authHeader from "../../Api/AuthHeader";
 
 const ImageUploader = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -22,9 +23,7 @@ const ImageUploader = () => {
         {
           method: "POST",
           body: formData,
-          headers: {
-            Authorization: `Bearer ${window.localStorage["jwt"]}`,
-          },
+          headers: authHeader(),
         }
       );
 

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./PropertyDetail.css";
+// import AddComment from "../../components/Comment/AddComment";
+import CommentList from "../../components/Comment/CommentList";
+// import authService from "../../Api/AuthService";
 
 function PropertyDetail(props) {
   const [property, setProperty] = useState(null);
   const { propertyId } = useParams();
+  // const currentUser = authService.getCurrentUser();
 
   useEffect(() => {
     async function fetchProperty() {
@@ -15,7 +19,7 @@ function PropertyDetail(props) {
       setProperty(data);
     }
     fetchProperty();
-  }, [props.match]);
+  }, [props.match, propertyId]);
 
   if (!property) {
     return <div className="loading">Loading...</div>;
@@ -39,10 +43,14 @@ function PropertyDetail(props) {
             key={imageObj.id}
             className="image"
             src={imageObj.image}
-            alt={`Property image ${imageObj.id}`}
+            alt={`Property ${imageObj.id}`}
           />
         ))}
       </div>
+
+      {/* Include CommentList component */}
+      <h2>Comments</h2>
+      <CommentList propertyId={propertyId} />
     </div>
   );
 }

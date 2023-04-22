@@ -18,26 +18,23 @@ import Reservation from "./pages/property/reservationlist";
 
 import Login from "./components/Account/Login";
 import Signup from "./components/Account/Signup";
-import Logout from "./components/Account/Logout";
 import Profile from "./components/Account/Profile";
-import EditProfile from "./components/Account/EditProfile";
 import Navbar from "./components/Navbar";
-import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
-import CaoNima from "./components/CAONima";
+// import Footer from "./components/Footer/Footer";
+// import Home from "./pages/Home";
+import CommentList from "./components/Comment/CommentList";
 
 function App() {
   return (
     <BrowserRouter>
-      {/* <CaoNima /> */}
       <Navbar />
       <Routes>
+        {/* <Route path="/" element={<Home />}> */}
         <Route path="/">
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="logout" element={<Logout />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="profile-edit" element={<EditProfile />} />
+          <Route path="commentList" element={<CommentList />} />
 
           <Route path="notification" element={<Notification />} />
           <Route path="reservation/create" element={<ReservationCre />} />
@@ -71,7 +68,7 @@ function App() {
           <Route path="user-properties" element={<UserProperties />} />
         </Route>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }
