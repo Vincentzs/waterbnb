@@ -35,8 +35,9 @@ function Signup() {
       formData.append("profile_image", profileImage);
     }
 
+    console.log(formData);
     try {
-      await axios.post(API + "register/", formData);
+      await axios.post(API + "/user/register/", formData);
       alert("Registered");
       window.location.href = "/login";
     } catch (err) {
@@ -122,7 +123,7 @@ function Signup() {
         />
         <button type="submit">Submit</button>
         <p className="forgot-password text-left">
-          Already registered <a href="http://localhost:3000/login/">Sign in?</a>
+          Already registered <a href="login/">Sign in?</a>
         </p>
       </form>
     </div>
