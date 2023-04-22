@@ -22,10 +22,14 @@ import Logout from "./components/Account/Logout";
 import Profile from "./components/Account/Profile";
 import EditProfile from "./components/Account/EditProfile";
 import Navbar from "./components/Navbar";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import CaoNima from "./components/CAONima";
 
 function App() {
   return (
     <BrowserRouter>
+      {/* <CaoNima /> */}
       <Navbar />
       <Routes>
         <Route path="/">
@@ -67,6 +71,7 @@ function App() {
           <Route path="user-properties" element={<UserProperties />} />
         </Route>
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

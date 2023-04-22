@@ -19,8 +19,8 @@ const Header = (props) => {
           </h1>
           <p className="lead fw-normal text-white-50 mb-0">
             {props.isHome
-              ? "Search below for restaurants in your area"
-              : "Here are the closest matching restaurants for your search"}
+              ? "Search below for properties in your area"
+              : "Here are the closest matching properties for your search"}
           </p>
         </div>
         <form
@@ -38,7 +38,7 @@ const Header = (props) => {
                 paddingTop: "10px",
                 paddingBottom: "10px",
               }}
-              placeholder="Search for restaurants..."
+              placeholder="Search for properties..."
               aria-label="Search"
               onKeyDown={_handleKeyDown}
               value={val}

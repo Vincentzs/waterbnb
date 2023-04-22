@@ -8,22 +8,29 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [selectedFile, setSelectedFile] = React.useState();
   const navigate = useNavigate();
+  console.log("*****************************");
+  console.log(userData);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(API + "/user/profile/", {
-          headers: authHeader(), // Use the authHeader function
+          headers: authHeader(),
         });
+        console.log("*****************************");
+        console.log(response.data);
         setUserData(response.data);
       } catch (error) {
         console.log(error);
-        navigate("/login");
       }
     };
-
     fetchUserData();
   }, [navigate]);
+
+  useEffect(() => {
+    console.log("************USERDATA*****************");
+    console.log(userData);
+  }, [userData]);
 
   useEffect(() => {
     if (!selectedFile) {
@@ -70,15 +77,15 @@ const Profile = () => {
       formData.append("profile_image", selectedFile);
     }
 
-    console.log(formData);
+    // console.log(formData);
     if (!userData) {
       return;
     }
-    for (var pair of formData.entries()) {
-      console.log("****************************************************");
-      console.log(pair[0] + ": " + pair[1]);
-      console.log(typeof pair[0] + ": " + typeof pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log("****************************************************");
+    //   console.log(pair[0] + ": " + pair[1]);
+    //   console.log(typeof pair[0] + ": " + typeof pair[1]);
+    // }
     axios.put(API + "/user/profile/edit/", formData, config).then(
       (response) => {
         // console.log(response);
@@ -99,17 +106,17 @@ const Profile = () => {
   };
 
   return (
-    <div class="container-xl px-4 mt-4" style={{ minHeight: "85vh" }}>
+    <div className="container-xl px-4 mt-4" style={{ minHeight: "85vh" }}>
       {userData ? (
         <>
           <h1
-            class="display-5"
+            className="display-5"
             style={{ textAlign: "center", marginBottom: "20px" }}
           >
             User Profile for {userData.username}
           </h1>
           <div className="row">
-            <div class="col-xl-4">
+            <div className="col-xl-4">
               <div className="card mb-4 mb-xl-0">
                 <div className="card-header">Profile Picture</div>
                 <div className="card-body text-center">
@@ -138,7 +145,7 @@ const Profile = () => {
                   <form>
                     <div className="row gx-3 mb-3">
                       <div className="col-md-6">
-                        <label className="small mb-1" for="inputFirstName">
+                        <label className="small mb-1" htmlFor="inputFirstName">
                           First name
                         </label>
                         <input
@@ -156,7 +163,7 @@ const Profile = () => {
                         />
                       </div>
                       <div className="col-md-6">
-                        <label className="small mb-1" for="inputLastName">
+                        <label className="small mb-1" htmlFor="inputLastName">
                           Last name
                         </label>
                         <input
@@ -176,7 +183,7 @@ const Profile = () => {
                     </div>
                     <div className="row gx-3 mb-3">
                       <div className="col-md-6">
-                        <label className="small mb-1" for="inputEmail">
+                        <label className="small mb-1" htmlFor="inputEmail">
                           Email
                         </label>
                         <input
@@ -194,7 +201,7 @@ const Profile = () => {
                         />
                       </div>
                       <div className="col-md-6">
-                        <label className="small mb-1" for="inputPhone">
+                        <label className="small mb-1" htmlFor="inputPhone">
                           Phone number
                         </label>
                         <input
@@ -212,7 +219,7 @@ const Profile = () => {
                         />
                       </div>
                       <div className="col-md-6">
-                        <label className="small mb-1" for="inputPass">
+                        <label className="small mb-1" htmlFor="inputPass">
                           Password
                         </label>
                         <input
@@ -230,12 +237,12 @@ const Profile = () => {
                         />
                       </div>
                       <div className="col-md-6">
-                        <label className="small mb-1" for="inputPass">
+                        <label className="small mb-1" htmlFor="inputPass">
                           Password Confirmation
                         </label>
                         <input
                           className="form-control"
-                          id="inputPass"
+                          id="inputPassConfirm"
                           type="password"
                           placeholder="ReEnter new password"
                           value={userData.password2}
@@ -248,11 +255,11 @@ const Profile = () => {
                         />
                       </div>
                       <div className="col-md-6">
-                        <label className="small mb-1" for="inputContact">
+                        <label className="small mb-1" htmlFor="inputContact">
                           Contact Method
                         </label>
                         <select
-                          id="inputContact"
+                          id="inputContactMethod"
                           value={userData.contact_method}
                           onChange={(e) =>
                             setUserData((prevUserData) => ({

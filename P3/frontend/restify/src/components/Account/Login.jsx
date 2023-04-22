@@ -16,8 +16,6 @@ function Login() {
         password,
       });
       localStorage.setItem("user", JSON.stringify(response.data));
-      // localStorage.setItem("access", response.data.access);F
-      // localStorage.setItem("refresh", response.data.refresh);
       window.location.href = "/";
     } catch (err) {
       setError("Invalid username or password");
@@ -48,62 +46,6 @@ function Login() {
         <button type="submit">Login</button>
       </form>
     </div>
-
-    // <>
-    //   <header className="bg-dark py-5">
-    //     <div className="container px-4 px-lg-5 my-1">
-    //       <div className="text-center text-white">
-    //         <div
-    //           style={{
-    //             display: "flex",
-    //             justifyContent: "center",
-    //             alignItems: "center",
-    //           }}
-    //         >
-    //           <h1 className="display-4 fw-bolder">Login</h1>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </header>
-
-    //   <section
-    //     className="container px-4 px-lg-5 pt-4"
-    //     style={{ minHeight: "70vh" }}
-    //   >
-    //     <form onSubmit={handleSubmit}>
-    //       <h3>Log In</h3>
-    //       <div className="form-group">
-    //         <label>Username</label>
-    //         <input
-    //           type="text"
-    //           id="username"
-    //           value={username}
-    //           onChange={(e) => setUsername(e.target.value)}
-    //           required
-    //         />
-    //       </div>
-    //       <div className="form-group">
-    //         <label>Password</label>
-    //         <input
-    //           type="password"
-    //           className="form-control"
-    //           placeholder="Enter password"
-    //           value={password}
-    //           onChange={(e) => {
-    //             setPassword(e.target.value);
-    //           }}
-    //         />
-    //       </div>
-
-    //       <button type="submit" className="btn btn-primary">
-    //         Login
-    //       </button>
-    //     </form>
-
-    //     <div style={{ color: "red" }}>{error}</div>
-    //     <div style={{ height: "calc(100% - 34px)" }}> </div>
-    //   </section>
-    // </>
   );
 }
 
